@@ -1,0 +1,8 @@
+.headOftable {
+    background: #6c7ae0;
+    color: #fff;
+}
+td:hover{
+    color: wheat;
+    cursor: pointer;
+}

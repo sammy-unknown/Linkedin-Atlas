@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="upload">
+        <div class="upload-files">
+            <header>
+                <p>
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                    <span class="up">up</span>
+                    <span class="load">load</span>
+                </p>
+            </header>
+            <div class="body" id="drop">
+                <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
+                <p class="pointer-none"><b>Drag and drop</b> files here <br /> or <a href="" id="triggerFile">browse</a>
+                    to begin the upload</p>
+                <input type="file" name="csv_file" multiple="multiple" />
+                <p id="file-container"></p>
+            </div>
+
+        </div>
+    </div>
+</form>
+{% endblock %}
