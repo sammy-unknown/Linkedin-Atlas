@@ -80,13 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'mydatabase',
-        'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'localhost',
-            'port': 27017,
-            'username': '',
-            'password': '',
-            'authSource': 'admin'
+            'host': 'mongodb+srv://priyam356:Tomar%40%40%23%23123@cluster0.cawjk02.mongodb.net/test?retryWrites=true&w=majority',
+            'retryWrites': True,
+            'w': 'majority'
         },
     }
 }
