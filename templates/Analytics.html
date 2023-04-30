@@ -8,8 +8,11 @@
 
 {% block content %}
 <div class="main_header d-flex flex-row">
-  <h3 class="my-5 mx-5 headText" style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">Analytics Dashboard</h3>
-  <button id="refresh-data-btn" class="btn btn-primary refreshbtn" >Refresh Data</button>
+  <h3 class="my-5 mx-5 headText"
+    style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">
+    Analytics Dashboard</h3>
+    
+  <button id="refresh-data-btn" class="btn btn-primary refreshbtn" onclick="refreshData()">Refresh Data</button>
 </div>
 {% if items %}
 <table class="table mx-auto w-75">
@@ -67,7 +70,7 @@
             <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
             <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitial.firstname</a>
           </div>
-          
+
         </td>
         <td class="Email col-4" name="latestEmail{{ item.id }}">{{ item.email }}</td>
       </tr>
@@ -96,51 +99,55 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   function submitForm(event) {
-      event.preventDefault(); // Prevent default form submission behavior
-      var form = document.getElementById("my-form");
-      var formData = new FormData(form); // Create form data object
-      var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
-      xhr.open("POST", "/submit-form/"); // Set request method and URL
-      xhr.onreadystatechange = function() {
-          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-              // Handle success response
-              console.log("Form Submit")
-              
-          } else if (this.status >= 400) {
-              // Handle error response
-              console.log("Form Eror")
+    event.preventDefault(); // Prevent default form submission behavior
+    var form = document.getElementById("my-form");
+    var formData = new FormData(form); // Create form data object
+    var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+    xhr.open("POST", "/submit-form/"); // Set request method and URL
+    xhr.onreadystatechange = function () {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // Handle success response
+        console.log("Form Submit")
 
-          }
-      };
-      xhr.send(formData); // Send form data object in the request
+      } else if (this.status >= 400) {
+        // Handle error response
+        console.log("Form Eror")
+
+      }
+    };
+    xhr.send(formData); // Send form data object in the request
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    // Get the refresh data button
-    var refreshDataBtn = document.getElementById('refresh-data-btn');
-    
+  document.addEventListener("DOMContentLoaded", function(event) {
     // Add click event listener to the refresh data button
-    refreshDataBtn.addEventListener('click', function(event) {
-      // Create a new XMLHttpRequest object
-      var xhr = new XMLHttpRequest();
-      
-      // Set up the request
-      xhr.open('POST', '{% url "refresh_data" %}');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      
-      // Send the request
-      xhr.send(JSON.stringify({}));
-      
-      // Handle the response
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          alert(response.message);
-          location.reload();
-        } else {
-          alert('Error refreshing data.');
-        }
-      };
+    var refreshBtn = document.getElementById("refresh-data-btn");
+    refreshBtn.addEventListener("click", function(event) {
+      // Retrieve data from the collection
+      fetch('/refresh_data/')
+        .then(response => response.json())
+        .then(data => {
+          // Update the HTML content with the new data
+          var tableBody = document.getElementById("table-body");
+          tableBody.innerHTML = "";
+          data.forEach(item => {
+            var row = "<tr><td>" + item.id + "</td><td>" + item.name + "</td><td>" + item.email + "</td></tr>";
+            tableBody.innerHTML += row;
+          });
+          // Display a success message
+          var successMessage = document.getElementById("success-message");
+          successMessage.style.display = "block";
+          setTimeout(function() {
+            successMessage.style.display = "none";
+          }, 3000);
+        })
+        .catch(error => {
+          // Display an error message
+          var errorMessage = document.getElementById("error-message");
+          errorMessage.style.display = "block";
+          setTimeout(function() {
+            errorMessage.style.display = "none";
+          }, 3000);
+        });
     });
   });
 </script>

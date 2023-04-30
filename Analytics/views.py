@@ -18,6 +18,12 @@ connection_string = f"mongodb+srv://{encoded_username}:{encoded_password}@{clust
 client = MongoClient(connection_string)
 db = client['mydatabase']
     # Retrieve data from the collection
+
+def refresh_data(r):
+    # Retrieve data from the collection
+    data = list(db.my_collection.find())
+    return data
+
 data = list(db.my_collection.find())
 
 def Analytics(request):
@@ -60,7 +66,3 @@ def Analytics(request):
 
 
 
-def refresh_data(request):
-    # Retrieve data from the collection
-    data = list(db.my_collection.find())
-    return JsonResponse({'message': 'Data refreshed successfully.'})
