@@ -1,15 +1,23 @@
 var fileInput = document.querySelector("input[type='file']");
 var dropZone = document.getElementById('drop');
-
+var orginalText = document.querySelector('.upload .upload-files .body p').innerHTML;
 dropZone.addEventListener('dragover', function(e) {
     e.preventDefault();
     dropZone.classList.add('hover');
+    document.querySelector('.upload .upload-files .body').style="background:white;transition:all 0.3s ease-in;border-color:white" 
+    document.querySelector('.upload .upload-files .body p,#file-container').style="color:black"
+    document.querySelector('.body p b').textContent = "Upload your";
 });
 
 dropZone.addEventListener('dragleave', function(e) {
     e.preventDefault();
     dropZone.classList.remove('hover');
-});
+    document.querySelector('.upload .upload-files .body').style="background:#161212;transition:all 0.3s ease-out;border-color:#161212"
+    document.querySelector('.upload .upload-files .body p,#file-container').style="color:white"
+    document.querySelector('.body p').innerHTML = orginalText;
+
+
+})
 
 dropZone.addEventListener('drop', function(e) {
     e.preventDefault();

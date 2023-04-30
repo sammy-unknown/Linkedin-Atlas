@@ -1,8 +1,43 @@
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background:
+        /* top, transparent black, faked with gradient */
+        linear-gradient(rgba(75, 80, 79, 0.7),
+            rgba(74, 94, 94, 0.7)),
+        /* bottom, image */
+        url("https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+
+}
+.item-number {
+    color: white;
+}
+
 .headOftable {
     background: #6c7ae0;
     color: #fff;
 }
-td:hover{
+
+td:hover {
     color: wheat;
     cursor: pointer;
+}
+
+.headText:hover {
+    cursor: pointer;
+    color: white;
+
+}
+
+.refreshbtn{
+    height: 10%;
+    margin-top: 3%;
+    margin-left: 32%;
+    opacity: 0.8;
 }

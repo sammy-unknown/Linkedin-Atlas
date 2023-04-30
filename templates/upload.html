@@ -1,26 +1,46 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<form id="uploadForm" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="upload">
-        <div class="upload-files">
-            <header>
-                <p>
-                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                    <span class="up">up</span>
-                    <span class="load">load</span>
-                </p>
-            </header>
-            <div class="body" id="drop">
-                <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
-                <p class="pointer-none"><b>Drag and drop</b> files here <br /> or <a href="" id="triggerFile">browse</a>
-                    to begin the upload</p>
-                <input type="file" name="csv_file" multiple="multiple" />
-                <p id="file-container"></p>
-            </div>
+{% load static %}
 
+{% block sttylesheets %}
+<link rel="stylesheet" href="{% static 'upload.css' %}">
+{% endblock sttylesheets %}
+{% block content %}
+
+<div class="wholeData">
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="upload my-5">
+            <div class="upload-files">
+                <header>
+                    <p>
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        <span class="up">up</span>
+                        <span class="load">load</span>
+                    </p>
+                </header>
+                <div class="body py-3" id="drop">
+                    <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
+                    <p class="pointer-none"><b>Drag and drop</b> files here <br /> or <a href="" id="triggerFile">browse</a>
+                        to begin the upload</p>
+                    <input type="file" name="csv_file" multiple="multiple" />
+                    <p id="file-container"></p>
+                </div>
+            </div>
         </div>
+    </form>
+    <div class="bgtext m-5 text-white">
+        <h1 class="my-4">Upload to store data into database</h1>
+        <ol>
+            <li>Updating data in a database involves modifying existing data to correct errors or ensure accuracy and completeness.</li>
+            <li>This process is typically done using SQL commands or other query languages to identify the record or set of records to be updated and specify the changes to be made.</li>
+            <li>It's important to carefully consider the implications of updating data, as it can have significant impacts on the integrity and security of your database.</li>
+            <li>Proper backup and recovery procedures should always be in place to ensure that data can be restored in case of any issues that may arise.</li>
+            <li>Keeping your database up-to-date through regular updates and maintenance helps to ensure that your data remains accurate, secure, and accessible to those who need it.</li>
+        </ol>
     </div>
-</form>
+</div>
+{% block scripts %}
+<script src="{% static 'mind.js' %}"></script>
+{% endblock scripts %}
 {% endblock %}

@@ -1,64 +1,150 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block sttylesheets %}
+<link rel="stylesheet" href="{% static 'analytics.css' %}">
+{% endblock sttylesheets %}
+
 
 {% block content %}
-<h3 class="my-5 mx-5 headText" style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">Analytics Dashboard</h3>
+<div class="main_header d-flex flex-row">
+  <h3 class="my-5 mx-5 headText" style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">Analytics Dashboard</h3>
+  <button id="refresh-data-btn" class="btn btn-primary refreshbtn" >Refresh Data</button>
+</div>
 {% if items %}
-<table class="table mx-auto w-80">
-    <thead class="thead-dark bg-dark">
-      <tr>
-        <th scope="col">
+<table class="table mx-auto w-75">
+  <thead class="thead-dark bg-dark">
+    <tr>
+      <th scope="col">
+        <label class="control control--checkbox">
+          <input type="checkbox" class="js-check-all" />
+          <div class="control__indicator"></div>
+        </label>
+      </th>
+      <th scope="col" class="headOftable">FirstName</th>
+      <th scope="col" class="headOftable">LastName</th>
+      <th scope="col" class="headOftable">Designation</th>
+      <th scope="col" class="headOftable">Pattern</th>
+      <th scope="col" class="headOftable col-4">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <form id="my-form" method="POST">
+      {% csrf_token %}
+      {% for item in items %}
+      <tr data-item-id="{{ item.id }}">
+        <th scope="row">
           <label class="control control--checkbox">
-            <input type="checkbox" class="js-check-all"/>
+            <input type="checkbox" class="check-one" />
             <div class="control__indicator"></div>
           </label>
         </th>
-        <th scope="col" class="headOftable">ID</th>
-        <th scope="col" class="headOftable">Name</th>
-        <th scope="col" class="headOftable">Designation</th>
-        <th scope="col" class="headOftable">Pattern</th>
-        <th scope="col" class="headOftable">Email</th>
+        <td class="first">{{ item.first }}</td>
+        <td class="last">{{ item.last }}</td>
+        <td>HOD</td>
+        <input type="hidden" class="updateEmail" name="updatedEmail{{ item.id }}" value="{{ item.email }}">
+        <input type="hidden" class="item_id" name="item_id" value="{{ item.id }}">
+        <td class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle py-2" type="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Choose Pattern
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastinitial</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastinitial</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastnamefirstname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitial.lastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastinitial</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstinitial</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname-lastname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
+            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitial.firstname</a>
+          </div>
+          
+        </td>
+        <td class="Email col-4" name="latestEmail{{ item.id }}">{{ item.email }}</td>
       </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-            <th scope="row">
-                <label class="control control--checkbox">
-                  <input type="checkbox"/>
-                  <div class="control__indicator"></div>
-                </label>
-            </th>
-            <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
-            <td>HOD</td>
-            <td class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </td>
-            <td>{{ item.email }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+      {% endfor %}
+    </form>
+  </tbody>
 </table>
 
 {% if items.has_previous or items.has_next %}
 <div class="pagination justify-content-center">
-    {% if items.has_previous %}
-    <a class="btn btn-outline-primary item-number text-white" href="?page={{ items.previous_page_number }}">Previous</a>
-    {% endif %}
-    <span class="item-number current-page mx-3 text-white my-1">Page: {{ items.number }}</span>
-    {% if items.has_next %}
-    <a class="btn btn-outline-primary item-number text-white" href="?page={{ items.next_page_number }}">Next</a>
-    {% endif %}
+  {% if items.has_previous %}
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.previous_page_number }}">Previous</a>
+  {% endif %}
+  <span class="item-number current-page mx-3 my-1 text-dark">Page: {{ items.number }}</span>
+  {% if items.has_next %}
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.next_page_number }}">Next</a>
+  {% endif %}
 </div>
 {% endif %}
 {% else %}
 <p>No data found.</p>
 {% endif %}
+{% block scripts %}
+<script src="{% static 'main.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function submitForm(event) {
+      event.preventDefault(); // Prevent default form submission behavior
+      var form = document.getElementById("my-form");
+      var formData = new FormData(form); // Create form data object
+      var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+      xhr.open("POST", "/submit-form/"); // Set request method and URL
+      xhr.onreadystatechange = function() {
+          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+              // Handle success response
+              console.log("Form Submit")
+              
+          } else if (this.status >= 400) {
+              // Handle error response
+              console.log("Form Eror")
+
+          }
+      };
+      xhr.send(formData); // Send form data object in the request
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the refresh data button
+    var refreshDataBtn = document.getElementById('refresh-data-btn');
+    
+    // Add click event listener to the refresh data button
+    refreshDataBtn.addEventListener('click', function(event) {
+      // Create a new XMLHttpRequest object
+      var xhr = new XMLHttpRequest();
+      
+      // Set up the request
+      xhr.open('POST', '{% url "refresh_data" %}');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      
+      // Send the request
+      xhr.send(JSON.stringify({}));
+      
+      // Handle the response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          alert(response.message);
+          location.reload();
+        } else {
+          alert('Error refreshing data.');
+        }
+      };
+    });
+  });
+</script>
+
+
+{% endblock scripts %}
 {% endblock %}
