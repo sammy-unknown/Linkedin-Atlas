@@ -2,15 +2,19 @@
 
 {% load static %}
 
+
+{% block title %}Upload{% endblock title %}
+
 {% block sttylesheets %}
 <link rel="stylesheet" href="{% static 'upload.css' %}">
 {% endblock sttylesheets %}
 {% block content %}
 
+
 <div class="wholeData">
     <form id="uploadForm" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="upload my-5">
+        <div class="upload my-5 py-4">
             <div class="upload-files">
                 <header>
                     <p>
@@ -40,7 +44,7 @@
         </ol>
     </div>
 </div>
-{% block scripts %}
-<script src="{% static 'mind.js' %}"></script>
-{% endblock scripts %}
+
+<script src="static/mind.js"></script>
+
 {% endblock %}

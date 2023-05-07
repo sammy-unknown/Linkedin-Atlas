@@ -1,0 +1,142 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+
+{% block title %}Analytics{% endblock title %}
+
+{% block sttylesheets %}
+<link rel="stylesheet" href="{% static 'viewdata.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.0/dist/simplebar.min.css" />
+{% endblock sttylesheets %}
+
+
+{% block content %}
+<div class="main_header d-flex flex-row">
+  <h3 class="my-5 py-1 mx-5 headText"
+    style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.1rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">
+    Analytics Dashboard</h3>
+</div>
+{% if companies %}
+<div class="limiter">
+  <div class="container-table100">
+    <div class="wrap-table100">
+      <div class="table100">
+        <table>
+          <thead>
+            <tr class="table100-head">
+              <th scope="col" class="column1">
+                <label class="control control--checkbox">
+                  <input type="checkbox" class="js-check-all" />
+                  <div class="control__indicator"></div>
+                </label>
+              </th>
+              <th scope="col" class="column2">Firstname</th>
+              <th scope="col" class="column3">Lastname</th>
+              <th scope="col" class="column4 px-5">Website</th>
+              <th scope="col" class="column5 px-5">Designation</th>
+              <th scope="col" class="column6">Profile Link</th>
+              <th scope="col" class="column7">Pattern</th>
+              <th scope="col" class="column8 col-3 px-5">Email</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <form id="my-form" method="POST">
+              {% csrf_token %}
+              {% for company in companies %}
+              <tr data-item-id="{{ company.id }}">
+                <th scope="row" class="column1">
+                  <label class="control control--checkbox">
+                    <input type="checkbox" class="check-one" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </th>
+                <td class="column2 first">{{ company.first }}</td>
+                <td class="column3 last">{{ company.last }}</td>
+                <td class="column4 website">{{ company.website }}</td>
+                <td class="column5">{{company.designation}}</td>
+                <td class="column6"><a class="text-decoration-none text-dark" href="{{company.Profile_Link}}">Open</a></td>
+                <input type="hidden" class="updateEmail" name="updatedEmail{{ company.id }}" value="None">
+                <input type="hidden" class="item_id" name="item_id" value="{{ company.id }}">
+                <td class="dropdown column7">
+                  <button class="button-8 dropdown-toggle py-2" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    
+                    Choose Pattern
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" data-simplebar>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastinitial</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastinitial</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastnamefirstname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitial.lastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastinitial</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstinitial</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname-lastname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
+                    <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitial.firstname</a>
+                  </div>
+
+                </td>
+                <td class="column8 Email col-3" name="latestEmail{{ company.id }}">{{company.email}}</td>
+              </tr>
+              {% endfor %}
+            </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new SimpleBar(document.querySelector('.dropdown-menu'));
+</script>
+{% if companies.has_previous or companies.has_next %}
+<div class="pagination justify-content-center my-2">
+  {% if companies.has_previous %}
+  <a class="btn btn-outline-primary item-number text-dark"
+    href="?page={{ companies.previous_page_number }}">Previous</a>
+  {% endif %}
+  <span class="item-number current-page mx-3 my-1 text-dark">Page: {{ companies.number }}</span>
+  {% if companies.has_next %}
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ companies.next_page_number }}">Next</a>
+  {% endif %}
+</div>
+{% endif %}
+{% else %}
+<p class="mx-5">No data found.</p>
+{% endif %}
+{% block scripts %}
+<script src="{% static 'main.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function submitForm(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    var form = document.getElementById("my-form");
+    var formData = new FormData(form); // Create form data object
+    var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+    xhr.open("POST", "/submit-form/"); // Set request method and URL
+    xhr.onreadystatechange = function () {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // Handle success response
+        console.log("Form Submit")
+
+      } else if (this.status >= 400) {
+        // Handle error response
+        console.log("Form Eror")
+
+      }
+    };
+    xhr.send(formData); // Send form data object in the request
+  }
+
+</script>
+
+
+{% endblock scripts %}
+{% endblock %}

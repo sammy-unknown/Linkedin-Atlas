@@ -36,27 +36,44 @@ function updateButtonName(event, element) {
   var first = emailparnetCell.querySelector('.first').textContent;
   var last = emailparnetCell.querySelector('.last').textContent;
   var emailCell = emailparnetCell.querySelector('.Email');
+  var olditem_id = emailparnetCell.querySelector('.item_id');
+  var url = emailparnetCell.querySelector('.website').textContent;
+  console.log(url)
+  try {
+    var domain = url.split('/')[2];
+    domain = domain.replace('www.', '');
+    domain = domain.split('.')[0] + '.' + domain.split('.')[1];
+  } catch (e) {
+    var domain = 'unknown.com'
+  }
   document.querySelectorAll('.check-one').forEach((checkbox, num) => {
     if (checkbox.checked) {
-      var isChecked = true;
+      isChecked = true;
       var newElement = checkbox.closest('tr');
       var newfirst = newElement.querySelector('.first').textContent;
       var newlast = newElement.querySelector('.last').textContent;
       var newEmail = newElement.querySelector('.Email');
       var updateEmail = newElement.querySelector('.updateEmail');
-      var item_id = newElement.querySelector('.item_id');
-      newEmail.textContent = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@gmail.com`;
-      updateEmail.value = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@gmail.com`;
-      item_id.value = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@gmail.com`;
+      var url = newElement.querySelector('.website').textContent;
+
+      try {
+        var domain = url.split('/')[2];
+        domain = domain.replace('www.', '');
+        domain = domain.split('.')[0] + '.' + domain.split('.')[1];
+      } catch (e) {
+        var domain = 'unknown.com'
+      }
+
+      newEmail.textContent = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
+      updateEmail.value = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
     }
   })
   if (isChecked === false) {
-    emailCell.textContent = `${(element.textContent).replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).toLowerCase()}@gmail.com`;
+    emailCell.textContent = `${(element.textContent).replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).toLowerCase()}@${domain}`;
 
   }
   var newLatestemail = emailparnetCell.querySelector('.Email').textContent;
-  console.log("New email address:", newLatestemail);
-  console.log(`${emailparnetCell.dataset.itemId}`)
+  console.log("New email address:", newLatestemail, emailparnetCell.dataset.itemId);
   document.querySelector(`input[name="updatedEmail${emailparnetCell.dataset.itemId}"]`).value = newLatestemail;
 
   event.preventDefault(); // Prevent default form submission behavior

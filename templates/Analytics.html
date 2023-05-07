@@ -1,5 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'templates/base.html' %}
 {% load static %}
+
+{% block title %}Analytics{% endblock title %}
 
 {% block sttylesheets %}
 <link rel="stylesheet" href="{% static 'analytics.css' %}">
@@ -8,79 +10,48 @@
 
 {% block content %}
 <div class="main_header d-flex flex-row">
-  <h3 class="my-5 mx-5 headText"
+  <h3 class="my-5 mx-5 py-3 headText"
     style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">
     Analytics Dashboard</h3>
-    
-  <button id="refresh-data-btn" class="btn btn-primary refreshbtn" onclick="refreshData()">Refresh Data</button>
 </div>
 {% if items %}
-<table class="table mx-auto w-75">
-  <thead class="thead-dark bg-dark">
-    <tr>
-      <th scope="col">
-        <label class="control control--checkbox">
-          <input type="checkbox" class="js-check-all" />
-          <div class="control__indicator"></div>
-        </label>
-      </th>
-      <th scope="col" class="headOftable">FirstName</th>
-      <th scope="col" class="headOftable">LastName</th>
-      <th scope="col" class="headOftable">Designation</th>
-      <th scope="col" class="headOftable">Pattern</th>
-      <th scope="col" class="headOftable col-4">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <form id="my-form" method="POST">
-      {% csrf_token %}
-      {% for item in items %}
-      <tr data-item-id="{{ item.id }}">
-        <th scope="row">
-          <label class="control control--checkbox">
-            <input type="checkbox" class="check-one" />
-            <div class="control__indicator"></div>
-          </label>
-        </th>
-        <td class="first">{{ item.first }}</td>
-        <td class="last">{{ item.last }}</td>
-        <td>HOD</td>
-        <input type="hidden" class="updateEmail" name="updatedEmail{{ item.id }}" value="{{ item.email }}">
-        <input type="hidden" class="item_id" name="item_id" value="{{ item.id }}">
-        <td class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle py-2" type="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Choose Pattern
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastinitial</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastinitial</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstnamelastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastnamefirstname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitial.lastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastinitial</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitialfirstinitial</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname-lastname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastname.firstname</a>
-            <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">lastinitial.firstname</a>
-          </div>
-
-        </td>
-        <td class="Email col-4" name="latestEmail{{ item.id }}">{{ item.email }}</td>
-      </tr>
-      {% endfor %}
-    </form>
-  </tbody>
-</table>
+<div class="limiter">
+  <div class="container-table100">
+    <div class="wrap-table100">
+    <div class="table100">
+      <table>
+        <thead>
+          <tr class="table100-head">
+            <th scope="col" class="column1">Company Name</th>
+            <th scope="col" class="column2">Domain</th>
+            <th scope="col" class="column3">Profile Link Company</th>
+            <th scope="col" class="column4">Total Profiles</th>
+            <th scope="col" class="column5">Action</th>
+            <th scope="col" class="column6">Status</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <form id="my-form" method="POST">
+            {% csrf_token %}
+            {% for item in items %}
+            <tr data-item-id="{{ item.id }}">
+              <td class="column1 company">{{ item.Company }}</td>
+              <td class="column2 domain">{{ item.Domain }}</td>
+              <td class="column3 Profile" name="profile{{ item.id }}">{{ item.company_link }}</td>
+              <td class="column4 totalProfile" name="totalProfiles">{{ item.totalProfiles }}</td>
+              <td class="column5"><a class="view text-decoration-none text-dark" href="{% url 'company_website' item.id %}">View</a></td>
+              <td class="column6 status col-1" name="status">{{ item.status }}</td>
+            </tr>
+            {% endfor %}
+          </form>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 {% if items.has_previous or items.has_next %}
-<div class="pagination justify-content-center">
+<div class="pagination justify-content-center my-2">
   {% if items.has_previous %}
   <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.previous_page_number }}">Previous</a>
   {% endif %}
@@ -91,7 +62,7 @@
 </div>
 {% endif %}
 {% else %}
-<p>No data found.</p>
+<p class="mx-5">No data found.</p>
 {% endif %}
 {% block scripts %}
 <script src="{% static 'main.js' %}"></script>
@@ -118,38 +89,6 @@
     xhr.send(formData); // Send form data object in the request
   }
 
-  document.addEventListener("DOMContentLoaded", function(event) {
-    // Add click event listener to the refresh data button
-    var refreshBtn = document.getElementById("refresh-data-btn");
-    refreshBtn.addEventListener("click", function(event) {
-      // Retrieve data from the collection
-      fetch('/refresh_data/')
-        .then(response => response.json())
-        .then(data => {
-          // Update the HTML content with the new data
-          var tableBody = document.getElementById("table-body");
-          tableBody.innerHTML = "";
-          data.forEach(item => {
-            var row = "<tr><td>" + item.id + "</td><td>" + item.name + "</td><td>" + item.email + "</td></tr>";
-            tableBody.innerHTML += row;
-          });
-          // Display a success message
-          var successMessage = document.getElementById("success-message");
-          successMessage.style.display = "block";
-          setTimeout(function() {
-            successMessage.style.display = "none";
-          }, 3000);
-        })
-        .catch(error => {
-          // Display an error message
-          var errorMessage = document.getElementById("error-message");
-          errorMessage.style.display = "block";
-          setTimeout(function() {
-            errorMessage.style.display = "none";
-          }, 3000);
-        });
-    });
-  });
 </script>
 
 
