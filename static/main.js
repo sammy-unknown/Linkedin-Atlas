@@ -68,10 +68,8 @@ function updateButtonName(event, element) {
       updateEmail.value = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
     }
   })
-  if (isChecked === false) {
-    emailCell.textContent = `${(element.textContent).replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).toLowerCase()}@${domain}`;
 
-  }
+  emailCell.textContent = `${(element.textContent).replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).toLowerCase()}@${domain}`;
   var newLatestemail = emailparnetCell.querySelector('.Email').textContent;
   console.log("New email address:", newLatestemail, emailparnetCell.dataset.itemId);
   document.querySelector(`input[name="updatedEmail${emailparnetCell.dataset.itemId}"]`).value = newLatestemail;

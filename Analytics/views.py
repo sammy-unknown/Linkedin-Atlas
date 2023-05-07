@@ -37,7 +37,7 @@ def Analytics(request):
         'message': message
     }
 
-    return render(request, "analytics.html", context)
+    return render(request, "templates/analytics.html", context)
 
 
 def company_website(request, pk):
@@ -57,11 +57,12 @@ def company_website(request, pk):
                 i = int(request.POST.getlist('item_id')[datai])-1
                 knk = i+10
             latest_email = request.POST.get(f"updatedEmail{int(i)}")
-            if latest_email:
+            print(type(latest_email))
+            if latest_email != None and latest_email:
                 db.my_collection.update_one({'id': pk, 'data_dict.id': i}, {'$set': {'data_dict.$.email': latest_email}})
                 print(f"Query Update to {i} {latest_email}")
-            # if i>knk:
-            #     break
+            if i>knk:
+                break
             i+=1
 
             # print("New loop is going to start")
@@ -88,9 +89,11 @@ def company_website(request, pk):
     if not page_obj:
         message = "No data found."
 
+    title = company['Company']
     context = {
         'companies': page_obj,
-        'message': message
+        'message': message,
+        'mainTitle':title
     }
 
     return render(request, "templates/viewdata.html", context)

@@ -143,3 +143,8 @@ MONGODB_URI = 'mongodb+srv://priyam356:Tomar%40%40%23%23123@cluster0.cawjk02.mon
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.mydatabase
 
+# File Upload
+AWS_ACCESS_KEY_ID = ""
+AWS_SECRET_ACCESS_KEY = ""
+AWS_S3_REGION_NAME = ""
+AWS_S3_ENDPOINT_URL = ""
