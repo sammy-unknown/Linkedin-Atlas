@@ -5,7 +5,6 @@
 
 {% block sttylesheets %}
 <link rel="stylesheet" href="{% static 'viewdata.css' %}">
-<link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.0/dist/simplebar.min.css" />
 {% endblock sttylesheets %}
 
 
@@ -62,7 +61,7 @@
                     
                     Choose Pattern
                   </button>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" data-simplebar>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname</a>
                     <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstname.lastname</a>
                     <a class="dropdown-item" href="#" onclick="updateButtonName(event,this)">firstinitiallastname</a>
@@ -112,8 +111,7 @@
 {% endif %}
 {% block scripts %}
 <script src="{% static 'main.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
   function submitForm(event) {
     event.preventDefault(); // Prevent default form submission behavior
