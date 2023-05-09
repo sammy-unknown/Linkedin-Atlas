@@ -9,10 +9,24 @@
 
 
 {% block content %}
-<div class="main_header d-flex flex-row">
-  <h3 class="my-5 mx-5 py-3 headText"
-    style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.5rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">
-    Analytics Dashboard</h3>
+<div class="header">
+  <div class="headerTable">
+    <br><div class="headertitle"><h2 class="mx-2">Dashboard</h2></div></br>
+    <div class="headerElem h6">
+      <div class="h6">Checking: {{Company}}</div>
+      <div class="h6">Domain: {{Domain}}</div>
+      <div class="h6">Total User: {{totalProfiles}}</div>
+      <a href="/company/{{id}}/" class="text-decoration-none text-dark">View</a>
+
+    </div>
+    <div class="totalpages">
+      <div class="h6">Total Profiles: {{total_documents}}</div>
+      {% if total_pages %}
+      <p>Total Pages: {{total_pages}}</p>
+      {% endif %}
+
+    </div>
+  </div>
 </div>
 {% if items %}
 <div class="limiter">

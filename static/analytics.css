@@ -57,7 +57,7 @@ html {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: auto;
+    margin: 31px auto;
 }
 
 table {
@@ -133,4 +133,41 @@ table td, table th {
 
 table tbody tr {
     height: 50px;
+}
+
+.headerTable{
+    height: 210px;
+    background: linear-gradient(45deg, #4158d0, #c850c0);
+    margin: 18px;
+}
+
+
+.headertitle{
+    padding-top: 5px;
+    background: linear-gradient(45deg, #4158d0, #c850c0);
+    
+}
+
+.headerElem{
+    padding-left: 8px;
+}
+
+.totalpages{
+    display: flex;
+    margin-right: 60px;
+    margin-top: -42px;
+    text-align: right;
+    flex-direction: column;
+}
+
+.LatestData{
+    height: fit-content;
+}
+
+.empty_data{
+    height: 500px;
+    margin: auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
 }

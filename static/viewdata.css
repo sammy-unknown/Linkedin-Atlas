@@ -208,3 +208,41 @@ table tbody tr {
 .dropdown-menu::-webkit-scrollbar-thumb {
     background-color: #888;
 }
+
+
+.headerTable{
+    height: 160px;
+    background: linear-gradient(45deg, #4158d0, #c850c0);
+    margin: 18px;
+}
+
+
+.headertitle{
+    padding-top: 5px;
+    background: linear-gradient(45deg, #4158d0, #c850c0);
+    
+}
+
+.headerElem{
+    padding-left: 8px;
+}
+
+.totalpages{
+    display: flex;
+    justify-content: right;
+    margin-right: 60px;
+    margin-top: -31px;
+    text-align: center;
+}
+
+.No_data{
+    height: 100px;
+}
+
+.empty_data{
+    height: 500px;
+    margin: auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}

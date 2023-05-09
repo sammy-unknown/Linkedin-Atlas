@@ -9,12 +9,23 @@
 
 
 {% block content %}
-<div class="main_header d-flex flex-row">
-  <h3 class="my-5 py-1 mx-5 headText"
-    style="font-family: 'Helvetica Neue', sans-serif; font-size: 2.1rem; color: #333; letter-spacing: 1px; text-transform: uppercase;">
-    Analytics Dashboard</h3>
+<div class="header">
+  <div class="headerTable">
+    <br><div class="headertitle mx-2"><h2>Build Query: {{mainTitle}}</h2></div></br>
+    <div class="headerElem h6">Status: {{status}}</div>
+    <div class="headerElem h6">Total Profiles: {{profiles}}</div>
+    {% if totalpages %}
+    <div class="totalpages">
+      <p>Total Pages: {{totalpages}}</p>
+    </div>
+    {% endif %}
+  </div>
 </div>
+
 {% if companies %}
+<div type="hidden" class="Instruct hidden" style="display: flex;text-align: center;justify-content: center;">
+  All 10 items are selected.  <a href="#">Select All 77 profiles</a>         
+</div>
 <div class="limiter">
   <div class="container-table100">
     <div class="wrap-table100">
@@ -94,6 +105,7 @@
 <script>
   new SimpleBar(document.querySelector('.dropdown-menu'));
 </script>
+
 {% if companies.has_previous or companies.has_next %}
 <div class="pagination justify-content-center my-2">
   {% if companies.has_previous %}
@@ -107,7 +119,9 @@
 </div>
 {% endif %}
 {% else %}
-<p class="mx-5">No data found.</p>
+<div class="empty_data">
+  <h5 class="No_data">No data found.</h5>
+</div>
 {% endif %}
 {% block scripts %}
 <script src="{% static 'main.js' %}"></script>

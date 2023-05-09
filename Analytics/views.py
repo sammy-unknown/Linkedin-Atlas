@@ -24,17 +24,28 @@ client = MongoClient(connection_string)
 
 def Analytics(request):
     db = client['mydatabase']
-    data = list(db.my_collection.find())
+    collection = db['my_collection']
+    data = list(db.my_collection.find().sort('_id', 1))
     paginator = Paginator(data, 10)
+    
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    linktotal_pages = paginator.num_pages
+    total_documents = collection.count_documents({})
+    currentChecking = collection.find_one({"status":"Checking"})
     message = ""
     if not page_obj:
         message = "No data found."
 
     context = {
         'items': page_obj,
-        'message': message
+        'message': message,
+        'total_documents': total_documents,
+        'total_pages': linktotal_pages,
+        'Company':str(currentChecking['Company']),
+        'Domain':str(currentChecking['Domain']),
+        'id':int(currentChecking['id']),
+        'totalProfiles':currentChecking['totalProfiles'],
     }
 
     return render(request, "templates/analytics.html", context)
@@ -58,7 +69,7 @@ def company_website(request, pk):
                 knk = i+10
             latest_email = request.POST.get(f"updatedEmail{int(i)}")
             print(type(latest_email))
-            if latest_email != None and latest_email:
+            if latest_email != 'None' and latest_email:
                 db.my_collection.update_one({'id': pk, 'data_dict.id': i}, {'$set': {'data_dict.$.email': latest_email}})
                 print(f"Query Update to {i} {latest_email}")
             if i>knk:
@@ -90,10 +101,16 @@ def company_website(request, pk):
         message = "No data found."
 
     title = company['Company']
+    status = company['status']
+    profiles = company['totalProfiles']
+    total_pages = paginator.num_pages
     context = {
         'companies': page_obj,
         'message': message,
-        'mainTitle':title
+        'mainTitle':title,
+        'profiles':profiles,
+        'totalpages':total_pages,
+        'status':status,
     }
 
     return render(request, "templates/viewdata.html", context)

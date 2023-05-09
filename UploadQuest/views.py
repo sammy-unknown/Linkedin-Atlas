@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.core.cache import cache
 from pymongo import MongoClient
 from urllib.parse import quote_plus
 import csv
@@ -229,9 +230,10 @@ def loginuser(request):
         return render(request,"templates/login.html")
     else:
         return redirect('/')
-
+    
 def logoutuser(request):
     logout(request)
+    cache.clear()
     return redirect('/')
 
 def account(request):
