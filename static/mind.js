@@ -32,6 +32,8 @@ dropZone.addEventListener('drop', function(e) {
     var files = e.dataTransfer.files;
     handleFiles(files);
 });
+
+
 function handleFiles(files) {
     // Create a new form data object
     var formData = new FormData();

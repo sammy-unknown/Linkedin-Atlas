@@ -2,10 +2,8 @@ from django.shortcuts import render,redirect
 from pymongo import MongoClient
 from django.core.paginator import Paginator
 from urllib.parse import quote_plus
-from django.http import JsonResponse
-from django.http import Http404
-from bson import ObjectId
 
+from pymongo import UpdateOne
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
 username = "priyam356"
 password = "Tomar@@##123"
@@ -62,34 +60,44 @@ def company_website(request, pk):
     # Here i am updaing email with corresponding pattern
     if request.method =="POST":
         print("form submit")
+        pageUpdate = []
         for data in company['data_dict']:
             datai = int(data['id'])
             if not knk:
                 i = int(request.POST.getlist('item_id')[datai])-1
                 knk = i+10
             latest_email = request.POST.get(f"updatedEmail{int(i)}")
-            print(type(latest_email))
             if latest_email != 'None' and latest_email:
-                db.my_collection.update_one({'id': pk, 'data_dict.id': i}, {'$set': {'data_dict.$.email': latest_email}})
-                print(f"Query Update to {i} {latest_email}")
+                pageUpdate.append(UpdateOne({'id': pk, 'data_dict.id': i}, {'$set': {'data_dict.$.email': latest_email}}))
+                print(f"[{i}]: Query Update {latest_email}")
+                
             if i>knk:
                 break
             i+=1
+        db.my_collection.bulk_write(pageUpdate)
+        # print(company['data_dict'])
+        if str(request.POST.get('checkcheckboxes')) == 'selectAll':
+            i-=1
+            # print("All Checbox are selected")
+            updates = []
+            for p in range(i, 400):
+                try:
+                    for new_data_dict in company['data_dict']:
+                        if new_data_dict['id'] == p:
+                            first = new_data_dict['first']
+                            last = new_data_dict['last']
+                            domain = new_data_dict['website'].replace("https","").replace("http","").replace("/","").replace("www.","")
+                            patrnn = request.POST.getlist(f"patternTransfer")[0]
+                            latest_email = f'{patrnn.replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).lower()}@{domain}'
+                            if latest_email:
+                                updates.append(UpdateOne({'id': pk, 'data_dict.id': p}, {'$set': {'data_dict.$.email': latest_email}}))
+                                print(f"[{p}]: Query Update {latest_email}")
+                except IndexError:
+                    break
 
-            # print("New loop is going to start")
-        
-            # for p in range(i,100):
-            #     try:
-            #         new_data_dict = company['data_dict'][p]
-            #         first = new_data_dict['first']
-            #         last = new_data_dict['last']
-            #         domain = new_data_dict['website']
-            #         latest_email = 
-            #         if latest_email:
-            #             db.my_collection.update_one({'id': pk, 'data_dict.id': p}, {'$set': {'data_dict.$.email': latest_email}})
-            #             print(f"Query Update to {i} {latest_email}")
-            #     except IndexError:
-            #         break
+
+            db.my_collection.bulk_write(updates)
+            
     db = client['mydatabase']
     newData = company.get('data_dict', [])
 

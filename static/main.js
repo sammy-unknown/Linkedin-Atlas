@@ -4,11 +4,15 @@ $(function () {
   $('.js-check-all').on('click', function () {
 
     if ($(this).prop('checked')) {
+      document.querySelector('.Instruct').style = 'display: flex;text-align: center;justify-content: center;' 
+
       $('th input[type="checkbox"]').each(function () {
         $(this).prop('checked', true);
         $(this).closest('tr').addClass('active');
       })
     } else {
+      document.querySelector('.Instruct').style = 'display: none;' 
+
       $('th input[type="checkbox"]').each(function () {
         $(this).prop('checked', false);
         $(this).closest('tr').removeClass('active');
@@ -30,36 +34,37 @@ $(function () {
 });
 
 function updateButtonName(event, element) {
-  var isChecked = false;
+  let isChecked = false;
 
-  var emailparnetCell = element.closest('tr')
-  var first = emailparnetCell.querySelector('.first').textContent;
-  var last = emailparnetCell.querySelector('.last').textContent;
-  var emailCell = emailparnetCell.querySelector('.Email');
-  var olditem_id = emailparnetCell.querySelector('.item_id');
-  var url = emailparnetCell.querySelector('.website').textContent;
+  let emailparnetCell = element.closest('tr')
+  let first = emailparnetCell.querySelector('.first').textContent;
+  let last = emailparnetCell.querySelector('.last').textContent;
+  let emailCell = emailparnetCell.querySelector('.Email');
+  let olditem_id = emailparnetCell.querySelector('.item_id');
+  let url = emailparnetCell.querySelector('.website').textContent;
+
   console.log(url)
   try {
-        var domain = url
-        domain = domain.replace('www.', '');
-        domain = domain.replace('https://', '');
-        domain = domain.replace('http://', '');
-        domain = domain.replace('/', '');
+    let domain = url
+    domain = domain.replace('www.', '');
+    domain = domain.replace('https://', '');
+    domain = domain.replace('http://', '');
+    domain = domain.replace('/', '');
   } catch (e) {
-    var domain = 'unknown.com'
+    let domain = 'unknown.com'
   }
   document.querySelectorAll('.check-one').forEach((checkbox, num) => {
     if (checkbox.checked) {
       isChecked = true;
-      var newElement = checkbox.closest('tr');
-      var newfirst = newElement.querySelector('.first').textContent;
-      var newlast = newElement.querySelector('.last').textContent;
-      var newEmail = newElement.querySelector('.Email');
-      var updateEmail = newElement.querySelector('.updateEmail');
-      var url = newElement.querySelector('.website').textContent;
+      let newElement = checkbox.closest('tr');
+      let newfirst = newElement.querySelector('.first').textContent;
+      let newlast = newElement.querySelector('.last').textContent;
+      let newEmail = newElement.querySelector('.Email');
+      let updateEmail = newElement.querySelector('.updateEmail');
+      let url = newElement.querySelector('.website').textContent;
 
       try {
-        var domain = url
+        let domain = url
         domain = domain.replace('www.', '');
         domain = domain.replace('https://', '');
         domain = domain.replace('http://', '');
@@ -67,7 +72,7 @@ function updateButtonName(event, element) {
 
       } catch (e) {
 
-        var domain = 'unknown.com'
+        let domain = 'unknown.com'
       }
 
       newEmail.textContent = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
@@ -78,14 +83,15 @@ function updateButtonName(event, element) {
     emailCell.textContent = `${(element.textContent).replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).toLowerCase()}@${domain}`;
 
   }
-  var newLatestemail = emailparnetCell.querySelector('.Email').textContent;
+  document.getElementById("clicked_button").value = element.textContent;
+  let newLatestemail = emailparnetCell.querySelector('.Email').textContent;
   console.log("New email address:", newLatestemail, emailparnetCell.dataset.itemId);
   document.querySelector(`input[name="updatedEmail${emailparnetCell.dataset.itemId}"]`).value = newLatestemail;
 
   event.preventDefault(); // Prevent default form submission behavior
-  var form = document.getElementById("my-form");
-  var formData = new FormData(form); // Create form data object
-  var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+  let form = document.getElementById("my-form");
+  let formData = new FormData(form); // Create form data object
+  let xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
   xhr.open("POST", window.location.href); // Set request method and URL
   xhr.onreadystatechange = function () {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -100,3 +106,17 @@ function updateButtonName(event, element) {
   xhr.send(formData); // Send form data object in the request
 
 }
+var checkboxess = document.querySelector('#selectAllcheckbox')
+var checkboxInstruct = document.querySelector('.Instruct')
+var checkcheckboxes = document.querySelector('.checkcheckboxes')
+
+function ClearSection(element){
+  checkcheckboxes.value = "none"
+  element.closest('div').outerHTML=`<div type="hidden" class="Instruct hidden my-2" id="selectAllcheckbox" style="display: flex;text-align: center;justify-content: center;">All 10 items are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All ${profiles} profiles</a></div>`
+  
+}
+function allselect(elem){
+  elem.closest('div').outerHTML= `<div type="hidden" class="Instruct hidden my-2" id="selectAllcheckbox" style="display: flex;text-align: center;justify-content: center;">All <b class="mx-1">${profiles}</b> Profiles are selected. <a href="#" class="mx-1" id="clearSelection" onclick="ClearSection(this)">Clear Selection</div`
+  checkcheckboxes.value = "selectAll"
+}
+

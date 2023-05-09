@@ -108,8 +108,8 @@ table * {
 }
 
 .column3 {
-    width: 245px;
-    padding-left: 100px;    
+    width: 285px;
+    /* padding-left: 100px;     */
 }
 
 table td, table th {
@@ -122,12 +122,12 @@ table td, table th {
 }
 
 .column5 {
-    width: 100px;
-    text-align: right;
+    width: 40px;
+    text-align: center;
 }
 .column6 {
-    width: 122px;
-    text-align: right;
+    width: 40px;
+    text-align: center;
     padding-right: 62px;
 }
 

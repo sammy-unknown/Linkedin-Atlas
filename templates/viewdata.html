@@ -23,8 +23,8 @@
 </div>
 
 {% if companies %}
-<div type="hidden" class="Instruct hidden" style="display: flex;text-align: center;justify-content: center;">
-  All 10 items are selected.  <a href="#">Select All 77 profiles</a>         
+<div type="hidden" class="Instruct hidden my-2"  style="display: none">
+All 10 items are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
 </div>
 <div class="limiter">
   <div class="container-table100">
@@ -51,6 +51,7 @@
           <tbody id="table-body">
             <form id="my-form" method="POST">
               {% csrf_token %}
+              <input type="hidden" class="checkcheckboxes" name="checkcheckboxes" value="None">
               {% for company in companies %}
               <tr data-item-id="{{ company.id }}">
                 <th scope="row" class="column1">
@@ -64,8 +65,10 @@
                 <td class="column4 website">{{ company.website }}</td>
                 <td class="column5">{{company.designation}}</td>
                 <td class="column6"><a class="text-decoration-none text-dark" href="{{company.Profile_Link}}">Open</a></td>
-                <input type="hidden" class="updateEmail" name="updatedEmail{{ company.id }}" value="None">
+                
                 <input type="hidden" class="item_id" name="item_id" value="{{ company.id }}">
+                <input type="hidden" name="patternTransfer" id="clicked_button" value="none">
+                <input type="hidden" class="updateEmail" name="updatedEmail{{ company.id }}" value="None">
                 <td class="dropdown column7">
                   <button class="button-8 dropdown-toggle py-2" type="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -124,6 +127,9 @@
 </div>
 {% endif %}
 {% block scripts %}
+<script>
+  var profiles = "{{ profiles }}";
+</script>
 <script src="{% static 'main.js' %}"></script>
 
 <script>
@@ -149,6 +155,6 @@
 
 </script>
 
-
 {% endblock scripts %}
+
 {% endblock %}
