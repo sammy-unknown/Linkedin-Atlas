@@ -23,9 +23,9 @@ client = MongoClient(connection_string)
 def Analytics(request):
     db = client['mydatabase']
     collection = db['my_collection']
+    
     data = list(db.my_collection.find().sort('_id', 1))
     paginator = Paginator(data, 10)
-    
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     linktotal_pages = paginator.num_pages
@@ -48,18 +48,34 @@ def Analytics(request):
     if not page_obj:
         message = "No data found."
 
-    context = {
-        'items': page_obj,
-        'message': message,
-        'total_documents': total_documents,
-        'totalpages': linktotal_pages,
-        'Company':str(currentChecking['Company']),
-        'Domain':str(currentChecking['Domain']),
-        'id':int(currentChecking['id']),
-        'totalProfiles':currentChecking['totalProfiles'],
-        'totalCheckedProfiles':totalCheckedProfiles,
-        'total_profiles_count':total_profiles_count,
-    }
+    if currentChecking:
+        Company=currentChecking['Company']
+        Domain=currentChecking['Domain']
+        id=currentChecking['id']
+        context = {
+            'items': page_obj,
+            'message': message,
+            'total_documents': total_documents,
+            'totalpages': linktotal_pages,
+            'Company':Company,
+            'Domain':Domain,
+            'id':id,
+            'totalProfiles':currentChecking['totalProfiles'],
+            'totalCheckedProfiles':totalCheckedProfiles,
+            'total_profiles_count':total_profiles_count}
+    else:
+        context = {
+            'items': page_obj,
+            'message': message,
+            'total_documents': total_documents,
+            'totalpages': linktotal_pages,
+            'Company':Company,
+            'Domain':Domain,
+            'id':id,
+            'totalProfiles':currentChecking['totalProfiles'],
+            'totalCheckedProfiles':totalCheckedProfiles,
+            'total_profiles_count':total_profiles_count
+            }
     return render(request, "templates/analytics.html", context)
 
 
