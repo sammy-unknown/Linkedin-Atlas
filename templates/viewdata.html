@@ -24,7 +24,7 @@
 
 {% if companies %}
 <div type="hidden" class="Instruct hidden my-2"  style="display: none">
-All 10 items are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
+All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
 </div>
 <div class="limiter">
   <div class="container-table100">
@@ -110,12 +110,15 @@ All 10 items are selected <a href="#" id="clearSelection" value=""></a><a href="
 </script>
 
 {% if companies.has_previous or companies.has_next %}
+
 <div class="pagination justify-content-center my-2">
   {% if companies.has_previous %}
-  <a class="btn btn-outline-primary item-number text-dark"
-    href="?page={{ companies.previous_page_number }}">Previous</a>
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ companies.previous_page_number }}">Previous</a>
   {% endif %}
   <span class="item-number current-page mx-3 my-1 text-dark">Page: {{ companies.number }}</span>
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:1}}">{{companies.number|add:1}}</a>
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:2}}">{{companies.number|add:2}}</a>
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{total_pages}}">{{total_pages}}</a>
   {% if companies.has_next %}
   <a class="btn btn-outline-primary item-number text-dark" href="?page={{ companies.next_page_number }}">Next</a>
   {% endif %}

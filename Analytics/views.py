@@ -18,7 +18,7 @@ connection_string = f"mongodb+srv://{encoded_username}:{encoded_password}@{clust
 
 
 client = MongoClient(connection_string)
-
+# Query all documents in the collection
 
 def Analytics(request):
     db = client['mydatabase']
@@ -30,6 +30,19 @@ def Analytics(request):
     page_obj = paginator.get_page(page_number)
     linktotal_pages = paginator.num_pages
     total_documents = collection.count_documents({})
+    totalCheckedProfiles = collection.count_documents({'status': 'Checked'})
+    # Use the $sum operator to calculate the total count of the 'totalProfiles' field
+    result = collection.aggregate([
+        {
+            '$group': {
+                '_id': None,
+                'total_count': {'$sum': '$totalProfiles'}
+            }
+        }
+    ])
+
+    # Extract the total count from the result
+    total_profiles_count = result.next()['total_count']
     currentChecking = collection.find_one({"status":"Checking"})
     message = ""
     if not page_obj:
@@ -44,8 +57,9 @@ def Analytics(request):
         'Domain':str(currentChecking['Domain']),
         'id':int(currentChecking['id']),
         'totalProfiles':currentChecking['totalProfiles'],
+        'totalCheckedProfiles':totalCheckedProfiles,
+        'total_profiles_count':total_profiles_count,
     }
-
     return render(request, "templates/analytics.html", context)
 
 

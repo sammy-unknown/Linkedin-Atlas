@@ -20,7 +20,13 @@
 
     </div>
     <div class="totalpages">
-      <div class="h6">Total Profiles: {{total_documents}}</div>
+      {% if totalCheckedProfiles %}
+      <div class="h6">Total Companies: {{totalCheckedProfiles}}/{{total_documents}}</div>
+      {% else %}
+      <div class="h6">Total Companies: {{total_documents}}</div>
+      {% endif %}
+      <div class="h6">Total Profiles: {{total_profiles_count}}</div>
+      
       {% if total_pages %}
       <p>Total Pages: {{total_pages}}</p>
       {% endif %}
@@ -70,6 +76,9 @@
   <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.previous_page_number }}">Previous</a>
   {% endif %}
   <span class="item-number current-page mx-3 my-1 text-dark">Page: {{ items.number }}</span>
+  <a class="item-number current-page mx-3 my-1 text-light" href="/data?page={{items.number|add:1}}">{{items.number|add:1}}</a>
+  <a class="item-number current-page mx-3 my-1 text-light" href="/data?page={{items.number|add:2}}">{{items.number|add:2}}</a>
+  <a class="item-number current-page mx-3 my-1 text-light" href="/data?page={{total_pages}}">{{total_pages}}</a>
   {% if items.has_next %}
   <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.next_page_number }}">Next</a>
   {% endif %}
