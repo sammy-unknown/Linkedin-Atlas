@@ -52,7 +52,7 @@ def Analytics(request):
         'items': page_obj,
         'message': message,
         'total_documents': total_documents,
-        'total_pages': linktotal_pages,
+        'totalpages': linktotal_pages,
         'Company':str(currentChecking['Company']),
         'Domain':str(currentChecking['Domain']),
         'id':int(currentChecking['id']),
