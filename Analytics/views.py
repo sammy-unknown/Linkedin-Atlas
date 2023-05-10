@@ -133,6 +133,7 @@ def company_website(request, pk):
         'profiles':profiles,
         'totalpages':total_pages,
         'status':status,
+        'verification':status,
     }
 
     return render(request, "templates/viewdata.html", context)

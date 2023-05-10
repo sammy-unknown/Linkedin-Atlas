@@ -41,18 +41,18 @@ function updateButtonName(event, element) {
   let last = emailparnetCell.querySelector('.last').textContent;
   let emailCell = emailparnetCell.querySelector('.Email');
   let olditem_id = emailparnetCell.querySelector('.item_id');
-  let url = emailparnetCell.querySelector('.website').textContent;
 
-  console.log(url)
-  try {
-    let domain = url
-    domain = domain.replace('www.', '');
-    domain = domain.replace('https://', '');
-    domain = domain.replace('http://', '');
-    domain = domain.replace('/', '');
-  } catch (e) {
-    let domain = 'unknown.com'
-  }
+
+  let url = emailparnetCell.querySelector('.website').textContent;
+  console.log("url:", url);
+
+  let domain = url;
+  domain = domain.replace('www.', '');
+  domain = domain.replace('https://', '');
+  domain = domain.replace('http://', '');
+  domain = domain.replace('/', '');
+  console.log("domain:", domain);
+
   document.querySelectorAll('.check-one').forEach((checkbox, num) => {
     if (checkbox.checked) {
       isChecked = true;
@@ -61,20 +61,12 @@ function updateButtonName(event, element) {
       let newlast = newElement.querySelector('.last').textContent;
       let newEmail = newElement.querySelector('.Email');
       let updateEmail = newElement.querySelector('.updateEmail');
-      let url = newElement.querySelector('.website').textContent;
-
-      try {
-        let domain = url
-        domain = domain.replace('www.', '');
-        domain = domain.replace('https://', '');
-        domain = domain.replace('http://', '');
-        domain = domain.replace('/', '');
-
-      } catch (e) {
-
-        let domain = 'unknown.com'
-      }
-
+      let updatedurl = newElement.querySelector('.website').textContent;
+      let domain = updatedurl;
+      domain = domain.replace('www.', '');
+      domain = domain.replace('https://', '');
+      domain = domain.replace('http://', '');
+      domain = domain.replace('/', '');
       newEmail.textContent = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
       updateEmail.value = `${(element.textContent).replace("lastname", newlast).replace("firstname", newfirst).replace("firstinitial", newfirst[0]).replace("lastinitial", newlast[0]).toLowerCase()}@${domain}`;
     }
