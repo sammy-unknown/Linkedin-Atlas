@@ -120,17 +120,24 @@ All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a hr
   {% if companies.number|add:-1 != 1 %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page=1">1</a>
   {% endif %}
+  {% if companies.number > 3 %}  
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page=2">...</a>
+  {% endif %}
 
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:-1}}">{{companies.number|add:-1}}</a>
 
   {% endif %}
   <span class="item-number current-page mx-3 my-1 text-dark">{{ companies.number }}</span>
-  {% if companies.number|add:2 < totalpages %}
-
+  {% if companies.number|add:1 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:1}}">{{companies.number|add:1}}</a>
+  {% endif %}
+  {% if companies.number|add:2 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:2}}">{{companies.number|add:2}}</a>
   {% endif %}
-  {% if totalpages != companies.number %}
+  {% if totalpages > companies.number %}
+  {% if totalpages > companies.number|add:3 %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages|add:-1}}">...</a>
+  {% endif %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages}}">{{totalpages}}</a>
   {% endif %}
 

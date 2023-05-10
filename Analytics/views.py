@@ -23,7 +23,20 @@ client = MongoClient(connection_string)
 def Analytics(request):
     db = client['mydatabase']
     collection = db['my_collection']
-    
+    query = {
+        "data_dict": {
+            "$exists": True,
+            "$ne": []
+        },
+        "data_dict.0.email": {
+            "$ne": "none"
+        }
+    }
+
+    # Update the status field to 'Validate' for matching documents
+    result = collection.update_many(query, {"$set": {"status": "Validate"}})
+
+
     data = list(db.my_collection.find().sort('_id', 1))
     paginator = Paginator(data, 10)
     page_number = request.GET.get('page')

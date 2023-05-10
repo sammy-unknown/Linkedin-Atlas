@@ -79,17 +79,24 @@
   {% if items.number|add:-1 != 1 %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page=1">1</a>
   {% endif %}
+  {% if items.number > 3 %}  
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page=2">...</a>
+  {% endif %}
 
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:-1}}">{{items.number|add:-1}}</a>
 
   {% endif %}
   <span class="item-number current-page mx-3 my-1 text-dark">{{ items.number }}</span>
-  {% if items.number|add:2 < totalpages %}
-
+  {% if items.number|add:1 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:1}}">{{items.number|add:1}}</a>
+  {% endif %}
+  {% if items.number|add:2 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:2}}">{{items.number|add:2}}</a>
   {% endif %}
-  {% if totalpages != items.number %}
+  {% if totalpages > items.number %}
+  {% if totalpages > items.number|add:3 %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages|add:-1}}">...</a>
+  {% endif %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages}}">{{totalpages}}</a>
   {% endif %}
 
