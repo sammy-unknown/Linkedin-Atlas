@@ -1,34 +1,29 @@
 console.log('mind.js is loaded')
 var fileInput = document.querySelector("input[type='file']");
-var dropZone = document.getElementById('drop');
-var orginalText = document.querySelector('.upload .upload-files .body p').innerHTML;
+var dropZone = document.querySelector('body');
+var orginalText = dropZone.innerHTML;
 
 dropZone.addEventListener('dragover', function(e) {
     e.preventDefault();
     dropZone.classList.add('hover');
-    document.querySelector('.upload .upload-files .body').style="background:white;transition:all 0.3s ease-in;border-color:white" 
-    document.querySelector('.upload .upload-files .body p').style="color:black"
-    document.querySelector('#file-container').style="color:black"
-    document.querySelector('.body p b').textContent = "Upload your";
+    document.querySelector('body').style = 'border:5px dashed #fffdfd75;pading:10px;background:#2c3fc8:;opacity: 0.6;'
+    document.querySelector('body').innerHTML='<div class="dropzonebxo" style="display: flex;justify-content: center;text-align: center;align-content: center;margin-top: 40vh;flex-direction: column;"><h3 class="text-light">Drop it like it’s hot</h3><p class="text-light">Upload files or folders by dropping them in this window</p></div>'
 });
 
 dropZone.addEventListener('dragleave', function(e) {
     e.preventDefault();
     dropZone.classList.remove('hover');
-    document.querySelector('.upload .upload-files .body').style="background:#161212;transition:all 0.3s ease-out;border-color:#161212"
-    document.querySelector('#file-container').style="color:white"
-    document.querySelector('.body p').innerHTML = orginalText;
-    document.querySelector('#drop p').style="color:white" 
+    document.querySelector('body ').innerHTML = orginalText;
+    document.querySelector('body').style = 'opacity: 1;'
+
 
 })
 
 dropZone.addEventListener('drop', function(e) {
     e.preventDefault();
     dropZone.classList.remove('hover');
-    document.querySelector('.upload .upload-files .body').style="background:#161212;transition:all 0.3s ease-out;border-color:#161212"
-    document.querySelector('#file-container').style="color:white"
-    document.querySelector('.body p').innerHTML = orginalText;
-    document.querySelector('#drop p').style="color:white" 
+    document.querySelector('body ').innerHTML = orginalText;
+    document.querySelector('body').style = 'opacity: 1;'
     var files = e.dataTransfer.files;
     handleFiles(files);
 });
