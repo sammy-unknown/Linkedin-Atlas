@@ -1,4 +1,8 @@
 console.log("main.js is working")
+if (document.querySelector('.js-check-all').checked){
+document.querySelector('.selectAllkeys').style = 'display: flex;justify-content: center;margin-right: 60px;color:white' 
+}
+
 $(function () {
 
   $('.js-check-all').on('click', function () {
