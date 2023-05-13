@@ -2,12 +2,13 @@ from django.shortcuts import render,redirect
 from pymongo import MongoClient
 from django.core.paginator import Paginator
 from urllib.parse import quote_plus
-
+from django.http import JsonResponse
 from pymongo import UpdateOne
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
-username = "priyam356"
+username = "manojtomar326"
 password = "Tomar@@##123"
-cluster_url = "cluster0.cawjk02.mongodb.net"
+cluster_url = "cluster0.ldghyxl.mongodb.net"
+
 # Encode the username and password using quote_plus()
 encoded_username = quote_plus(username)
 encoded_password = quote_plus(password)
@@ -21,29 +22,18 @@ client = MongoClient(connection_string)
 # Query all documents in the collection
 
 def Analytics(request):
+
+
     db = client['mydatabase']
     collection = db['my_collection']
-    query = {
-        "data_dict": {
-            "$exists": True,
-            "$ne": []
-        },
-        "data_dict.0.email": {
-            "$ne": "none"
-        }
-    }
-
-    # Update the status field to 'Validate' for matching documents
-    result = collection.update_many(query, {"$set": {"status": "Validate"}})
-
-
     data = list(db.my_collection.find().sort('_id', 1))
     paginator = Paginator(data, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     linktotal_pages = paginator.num_pages
     total_documents = collection.count_documents({})
-    totalCheckedProfiles = collection.count_documents({'status': 'Checked'})
+    totalCheckedProfile = collection.count_documents({'status': 'pending'})
+    totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
     # Use the $sum operator to calculate the total count of the 'totalProfiles' field
     result = collection.aggregate([
         {
@@ -82,10 +72,6 @@ def Analytics(request):
             'message': message,
             'total_documents': total_documents,
             'totalpages': linktotal_pages,
-            'Company':Company,
-            'Domain':Domain,
-            'id':id,
-            'totalProfiles':currentChecking['totalProfiles'],
             'totalCheckedProfiles':totalCheckedProfiles,
             'total_profiles_count':total_profiles_count
             }
@@ -103,6 +89,23 @@ def company_website(request, pk):
     # Here i am updaing email with corresponding pattern
     if request.method =="POST":
         print("form submit")
+
+        query = {
+            "data_dict": {
+                "$exists": True,
+                "$ne": []
+            },
+            "data_dict.0.email": {
+                "$ne": "none"
+                }
+        }
+
+        # Update the status field to 'Validate' for matching documents
+        result = collection.update_one(
+            {'id': pk},  # filter to select the document to update
+            {'$set': {'status': 'Validate'}}  # update to modify the selected document
+        )
+
         pageUpdate = []
         for data in company['data_dict']:
             datai = int(data['id'])
@@ -113,7 +116,7 @@ def company_website(request, pk):
             if latest_email != 'None' and latest_email:
                 pageUpdate.append(UpdateOne({'id': pk, 'data_dict.id': i}, {'$set': {'data_dict.$.email': latest_email}}))
                 print(f"[{i}]: Query Update {latest_email}")
-                
+
             if i>knk:
                 break
             i+=1
@@ -129,7 +132,7 @@ def company_website(request, pk):
                         if new_data_dict['id'] == p:
                             first = new_data_dict['first']
                             last = new_data_dict['last']
-                            domain = new_data_dict['website'].replace("https","").replace("http","").replace("/","").replace("www.","")
+                            domain = new_data_dict['website'].replace("https:","").replace("http:","").replace("/","").replace("www.","")
                             patrnn = request.POST.getlist(f"patternTransfer")[0]
                             latest_email = f'{patrnn.replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).lower()}@{domain}'
                             if latest_email:
@@ -140,7 +143,7 @@ def company_website(request, pk):
 
 
             db.my_collection.bulk_write(updates)
-            
+
     db = client['mydatabase']
     newData = company.get('data_dict', [])
 
@@ -153,6 +156,7 @@ def company_website(request, pk):
 
     title = company['Company']
     status = company['status']
+
     profiles = company['totalProfiles']
     total_pages = paginator.num_pages
     context = {
@@ -162,7 +166,13 @@ def company_website(request, pk):
         'profiles':profiles,
         'totalpages':total_pages,
         'status':status,
-        'verification':status,
     }
 
     return render(request, "templates/viewdata.html", context)
+
+def get_data(request):
+    # Retrieve data from the server
+    data = {"key": "value"}
+
+    # Return data as a JSON response
+    return JsonResponse(data)

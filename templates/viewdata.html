@@ -23,8 +23,13 @@
 </div>
 
 {% if companies %}
-<div type="hidden" class="Instruct hidden my-2"  style="display: none">
-All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
+<div class="selectAllkeys" style="display: none">
+  <div type="hidden" class="Instruct hidden my-2" >
+  All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
+  </div>
+  <div class="downloadAll">
+    <button class="btn btn-primary">Download</button>
+  </div>
 </div>
 <div class="limiter">
   <div class="container-table100">
@@ -98,7 +103,7 @@ All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a hr
                 </td>
                 <td class="column8 Email col-3" name="latestEmail{{ company.id }}">{{company.email}}</td>
                 {% if company.email != 'none' %}
-                <td class="column9 Verification col-1" name="EmailVerification">{{company.verification}}</td>
+                <td class="column9 Verification col-1" name="EmailVerification">{{company.Verification}}</td>
                 {% else %}
                 <td class="column9 Verification col-1" name="EmailVerification">none</td>
                 {% endif %}

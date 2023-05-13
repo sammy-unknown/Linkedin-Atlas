@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path,include
 from UploadQuest import views as views1
 from Analytics import views as views2
+import debug_toolbar
 urlpatterns = [
+    path('__debug__/', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
     path('', include('UploadQuest.urls')),
     path('', include('Analytics.urls')),

@@ -4,14 +4,14 @@ $(function () {
   $('.js-check-all').on('click', function () {
 
     if ($(this).prop('checked')) {
-      document.querySelector('.Instruct').style = 'display: flex;text-align: center;justify-content: center;' 
+      document.querySelector('.selectAllkeys').style = 'display: flex;text-align: center;justify-content: center;margin: 30px;' 
 
       $('th input[type="checkbox"]').each(function () {
         $(this).prop('checked', true);
         $(this).closest('tr').addClass('active');
       })
     } else {
-      document.querySelector('.Instruct').style = 'display: none;' 
+      document.querySelector('.selectAllkeys').style = 'display: none;' 
 
       $('th input[type="checkbox"]').each(function () {
         $(this).prop('checked', false);

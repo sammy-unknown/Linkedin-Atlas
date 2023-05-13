@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-mbjw_b#47ozdyqc(gj&&=mk3a1lsdisf4vzj^=@0m#uah-lro1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['seleniserver.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'debug_toolbar',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -81,7 +83,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'mydatabase',
         'CLIENT': {
-            'host': 'mongodb+srv://priyam356:Tomar%40%40%23%23123@cluster0.cawjk02.mongodb.net/test?retryWrites=true&w=majority',
+            'host': 'mongodb+srv://manojtomar326:Tomar%40%40%23%23123@cluster0.ldghyxl.mongodb.net/test?retryWrites=true&w=majority',
             'retryWrites': True,
             'w': 'majority'
         },
@@ -139,9 +141,11 @@ STATICFILES_DIRS = [
 
 import pymongo
 
-MONGODB_URI = 'mongodb+srv://priyam356:Tomar%40%40%23%23123@cluster0.cawjk02.mongodb.net/mydatabase'
+MONGODB_URI = 'mongodb+srv://manojtomar326:Tomar%40%40%23%23123@cluster0.ldghyxl.mongodb.net/mydatabase'
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.mydatabase
+
+INTERNAL_IPS = ['127.0.0.1', '122.161.49.21','192.168.1.3','seleniserver.pythonanywhere.com']
 
 # File Upload
 AWS_ACCESS_KEY_ID = ""

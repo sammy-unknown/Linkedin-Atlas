@@ -254,3 +254,16 @@ table tbody tr {
     text-align: center;
     justify-content: center;
 }
+
+.Instruct{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.selectAllkeys{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
