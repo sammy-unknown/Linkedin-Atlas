@@ -132,7 +132,7 @@
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:-1}}">{{companies.number|add:-1}}</a>
 
   {% endif %}
-  <span class="item-number current-page mx-3 my-1 text-dark">{{ companies.number }}</span>
+  <span class="item-number current-page-real mx-3 my-1 text-dark">{{ companies.number }}</span>
   {% if companies.number|add:1 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{companies.number|add:1}}">{{companies.number|add:1}}</a>
   {% endif %}

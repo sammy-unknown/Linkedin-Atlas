@@ -4,7 +4,7 @@ $(function () {
   $('.js-check-all').on('click', function () {
 
     if ($(this).prop('checked')) {
-      document.querySelector('.selectAllkeys').style = 'display: flex;text-align: center;justify-content: center;margin: 30px;' 
+      document.querySelector('.selectAllkeys').style = 'display: flex;justify-content: center;margin-right: 60px;color:white' 
 
       $('th input[type="checkbox"]').each(function () {
         $(this).prop('checked', true);

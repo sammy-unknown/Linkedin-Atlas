@@ -12,26 +12,27 @@
 <div class="header">
   <div class="headerTable">
     <br><div class="headertitle"><h2 class="mx-2">Dashboard</h2></div></br>
-    {% if Company  %}
     <div class="headerElem h6">
-      <div class="h6">Checking: {{Company}}</div>
-      <div class="h6">Domain: {{Domain}}</div>
-      <div class="h6">Total User: {{totalProfiles}}</div>
-      <a href="/company/{{id}}/" class="text-decoration-none text-dark">View</a>
-    </div>
-    {% endif %}
-    <div class="totalpages">
-      {% if totalCheckedProfiles %}
-      <div class="h6">Total items: {{totalCheckedProfiles}}/{{total_documents}}</div>
-      {% else %}
-      <div class="h6">Total items: {{total_documents}}</div>
-      {% endif %}
-      <div class="h6">Total Profiles: {{total_profiles_count}}</div>
-      
-      {% if totalpages %}
-      <p>Total Pages: {{totalpages}}</p>
-      {% endif %}
-
+      <div class="CheckingInfo">
+        <div class="h6">Checking: {{Company}}</div>
+        <div class="h6">Domain: {{Domain}}</div>
+        <div class="h6">Total User: {{totalProfiles}}</div>
+        {% if Company %}
+        <a href="/company/{{id}}/" class="text-decoration-none">View</a>
+        {% endif %}
+      </div>
+      <div class="totalpages">
+        {% if totalCheckedProfiles %}
+        <div class="h6">Total items: {{totalCheckedProfiles}}/{{total_documents}}</div>
+        {% else %}
+        <div class="h6">Total items: {{total_documents}}</div>
+        {% endif %}
+        <div class="h6">Total Profiles: {{total_profiles_count}}</div>
+        
+        {% if totalpages %}
+        <p>Total Pages: {{totalpages}}</p>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
@@ -77,7 +78,7 @@
   {% if items.has_previous %}
   <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.previous_page_number }}">Previous</a>
   {% if items.number|add:-1 != 1 %}
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page=1">1</a>
+  <a class="item-number current-page mx-3 my-1 text-light " href="?page=1">1</a>
   {% endif %}
   {% if items.number > 3 %}  
   <a class="item-number current-page mx-3 my-1 text-light" href="?page=2">...</a>
@@ -86,7 +87,7 @@
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:-1}}">{{items.number|add:-1}}</a>
 
   {% endif %}
-  <span class="item-number current-page mx-3 my-1 text-dark">{{ items.number }}</span>
+  <span class="item-number current-page-real mx-3 my-1 text-dark">{{ items.number }}</span>
   {% if items.number|add:1 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:1}}">{{items.number|add:1}}</a>
   {% endif %}
