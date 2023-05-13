@@ -20,33 +20,30 @@ connection_string = f"mongodb+srv://{encoded_username}:{encoded_password}@{clust
 
 client = MongoClient(connection_string)
 # Query all documents in the collection
+db = client['mydatabase']
+collection = db['my_collection']
+total_documents = collection.count_documents({})
+totalCheckedProfile = collection.count_documents({'status': 'pending'})
+totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
+print('total_documents',total_documents)
 
 def Analytics(request):
     if request.user.is_anonymous:
         print("redirecting to login")
         return redirect('/login')
-    # const filter = req.body.where||{};
-    # let limit = parseInt(req.body.pageLength) || 0;
-    # let skip = (parseInt(req.body.currentPage) || 0) * limit; 
-    # const total = await blog.countDocuments(
-    #   blog.find(filter, { __v: 0 }).sort({created_at: -1})
-    # ).collation({ locale: "en", strength: 2 });
-    #   const data =  await blog.find(filter)//
-    #   .skip(skip)
-    #   .limit(limit)
-    #   .sort({created_at:-1})
-
-    db = client['mydatabase']
-    collection = db['my_collection']
-    data = list(db.my_collection.find().sort('_id', 1))
-    paginator = Paginator(data, 10)
     page_number = request.GET.get('page')
+    items_per_page = 10
+    paginator = Paginator(range(total_documents), items_per_page)
     page_obj = paginator.get_page(page_number)
+    if page_number != None:
+        start_index = (int(page_number) - 1) * items_per_page
+    else:
+        start_index = 0
+    end_index = start_index + items_per_page
+    print(start_index)
+    data = list(collection.find().sort('_id', 1).skip(start_index).limit(items_per_page))
+
     linktotal_pages = paginator.num_pages
-    total_documents = collection.count_documents({})
-    totalCheckedProfile = collection.count_documents({'status': 'pending'})
-    totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
-    # Use the $sum operator to calculate the total count of the 'totalProfiles' field
     result = collection.aggregate([
         {
             '$group': {
@@ -68,7 +65,8 @@ def Analytics(request):
         Domain=currentChecking['Domain']
         id=currentChecking['id']
         context = {
-            'items': page_obj,
+            'items': data,
+            'page_obj': page_obj,
             'message': message,
             'total_documents': total_documents,
             'totalpages': linktotal_pages,
@@ -80,7 +78,8 @@ def Analytics(request):
             'total_profiles_count':total_profiles_count}
     else:
         context = {
-            'items': page_obj,
+            'items': data,
+            'page_obj': page_obj,
             'message': message,
             'total_documents': total_documents,
             'totalpages': linktotal_pages,
@@ -181,10 +180,3 @@ def company_website(request, pk):
     }
 
     return render(request, "templates/viewdata.html", context)
-
-def get_data(request):
-    # Retrieve data from the server
-    data = {"key": "value"}
-
-    # Return data as a JSON response
-    return JsonResponse(data)

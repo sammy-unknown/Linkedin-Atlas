@@ -72,37 +72,37 @@
   </div>
 </div>
 
-{% if items.has_previous or items.has_next %}
+{% if page_obj.has_previous or page_obj.has_next %}
 
 <div class="pagination justify-content-center my-2">
-  {% if items.has_previous %}
-  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.previous_page_number }}">Previous</a>
-  {% if items.number|add:-1 != 1 %}
+  {% if page_obj.has_previous %}
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+  {% if page_obj.number|add:-1 != 1 %}
   <a class="item-number current-page mx-3 my-1 text-light " href="?page=1">1</a>
   {% endif %}
-  {% if items.number > 3 %}  
+  {% if page_obj.number > 3 %}  
   <a class="item-number current-page mx-3 my-1 text-light" href="?page=2">...</a>
   {% endif %}
 
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:-1}}">{{items.number|add:-1}}</a>
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-1}}">{{page_obj.number|add:-1}}</a>
 
   {% endif %}
-  <span class="item-number current-page-real mx-3 my-1 text-dark">{{ items.number }}</span>
-  {% if items.number|add:1 < totalpages %}
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:1}}">{{items.number|add:1}}</a>
+  <span class="item-number current-page-real mx-3 my-1 text-dark">{{ page_obj.number }}</span>
+  {% if page_obj.number|add:1 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:1}}">{{page_obj.number|add:1}}</a>
   {% endif %}
-  {% if items.number|add:2 < totalpages %}
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{items.number|add:2}}">{{items.number|add:2}}</a>
+  {% if page_obj.number|add:2 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:2}}</a>
   {% endif %}
-  {% if totalpages > items.number %}
-  {% if totalpages > items.number|add:3 %}
+  {% if totalpages > page_obj.number %}
+  {% if totalpages > page_obj.number|add:3 %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages|add:-1}}">...</a>
   {% endif %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages}}">{{totalpages}}</a>
   {% endif %}
 
-  {% if items.has_next %}
-  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ items.next_page_number }}">Next</a>
+  {% if page_obj.has_next %}
+  <a class="btn btn-outline-primary item-number text-dark" href="?page={{ page_obj.next_page_number }}">Next</a>
   {% endif %}
 </div>
 {% endif %}
