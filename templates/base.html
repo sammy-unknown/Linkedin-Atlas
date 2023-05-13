@@ -33,7 +33,11 @@
             z-index: 9999;
             opacity:0.7;
         }
-
+        .accountBox .nav-item{
+            border-bottom: 1px solid white;
+            margin-top: 2px;
+            padding-bottom: 6px;
+        }
 
         main {
             margin-top: 50px; /* Adjust this value to match the height of your navbar */
@@ -66,9 +70,6 @@
 
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav">
-                            <li><button id="refresh-button" class="btn btn-primary m-1">
-                                <i class="fas fa-sync-alt"></i> Refresh
-                            </button></li>
                             <li><a href="/account"><button class="btn btn-success m-1">Account Settings</button></a></li>
                             <li><a href="/logout"><button class="btn btn-success m-1">Logout</button></a></li>
 

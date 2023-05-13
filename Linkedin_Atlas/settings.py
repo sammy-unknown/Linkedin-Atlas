@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djongo',
+    'UploadQuest'
+
 ]
 
 MIDDLEWARE = [
@@ -152,3 +154,4 @@ AWS_ACCESS_KEY_ID = ""
 AWS_SECRET_ACCESS_KEY = ""
 AWS_S3_REGION_NAME = ""
 AWS_S3_ENDPOINT_URL = ""
+AUTH_USER_MODEL = 'UploadQuest.CustomUser'

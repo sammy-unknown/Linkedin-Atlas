@@ -6,34 +6,42 @@
 {% block content %}
 
 <style>
+    body{
+        color:white;
+        background: #000;
+    }
+
     .accountBox{
         justify-content: center;
         border: 2px solid;
         margin: 100px auto;
-        width:300px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        width: 300px;
+        box-shadow: rgba(255, 255, 255, 0.4) 3px 7px 40px 13px;
     }
     .containerother{
         justify-content: center;
         margin: 10px auto;
         width:300px;
     }
+    
 
 </style>
 
 <div class="container accountBox">
-    <ul>
-        <li>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
             Username: {{username}}
         </li>
-        <li>
+        <li class="nav-item">
+
             Email: {{email}}
         </li>
-        
+        <li class="nav-item">
+            <div class="containerother">
+                <a href="#" class='text-decoration-none mx-5'>Change Password</a>
+            </div>
+        </li>
     </ul>
-</div>
-<div class="containerother">
-    <a href="#" class='text-decoration-none text-dark'>Change Password</a>
 </div>
 
 

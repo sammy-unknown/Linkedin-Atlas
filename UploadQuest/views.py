@@ -109,15 +109,18 @@ def logoutuser(request):
 def account(request):
     if request.user.is_anonymous:
         return redirect('/')
-    users_collection = db["users"]
-    usern = request.user
+    users_collection = db["auth_user"]
+    usern = str(request.user)
+    print(usern)
     user = users_collection.find_one({"username": usern})
     if user:
         email = user.get("email")
         print(email)
-        context = {'username':usern,'email':'not found'}
+        context = {'username':usern,'email':email}
         return render(request,"templates/account.html",context)
-    
+    else:
+        context = {'username':'Not found','email':'not found'}
+        return render(request,"templates/account.html",context)
 def clear_cache(request):
     print("Cache Cleared")
     cache.clear()

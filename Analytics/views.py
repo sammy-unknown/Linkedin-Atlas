@@ -22,8 +22,6 @@ client = MongoClient(connection_string)
 # Query all documents in the collection
 
 def Analytics(request):
-
-
     db = client['mydatabase']
     collection = db['my_collection']
     data = list(db.my_collection.find().sort('_id', 1))
