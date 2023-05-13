@@ -1,6 +1,6 @@
 html,
 body {
-    min-height: 100%;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     background:
@@ -8,7 +8,9 @@ body {
         linear-gradient(rgba(0, 0, 0, 0.7),
             rgba(0, 0, 0, 0.7)),
         /* bottom, image */
-        url("https://source.unsplash.com/1600x900/?random,text");
+        url("https://source.unsplash.com/1600x900/?cars,text,books,3d");
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 body {
