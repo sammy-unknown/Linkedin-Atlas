@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
 from pymongo import MongoClient
 from urllib.parse import quote_plus
 import csv
-import pymongo
 from io import StringIO
-from django.contrib.auth import authenticate,login,logout
-from django.http import JsonResponse
-from django.core.files.storage import default_storage
+from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse, HttpResponse
+from django.http import FileResponse
 # Create your views here.
-
 
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
 username = "manojtomar326"
@@ -30,13 +27,14 @@ client = MongoClient(connection_string)
 db = client['mydatabase']  # Replace with your actual database name
 collection = db['my_collection']  # Replace with your actual collection name
 
+
 @csrf_exempt
 def index(request):
     from time import sleep
     if request.user.is_anonymous:
         print("redirecting to login")
         return redirect('/login')
-    update =0
+    update = 0
     data_list = []
 
     if request.method == 'POST' and request.FILES.get('csv_file'):
@@ -49,7 +47,6 @@ def index(request):
         for row in csv_data:
             row = {str(k): v for k, v in row.items() if k != ''}
             data_list.append(row)
-
 
         # Find the document with the highest id value, and project only the id field
         result = collection.aggregate([
@@ -79,17 +76,18 @@ def index(request):
 
     return render(request, "templates/upload.html")
 
+
 def loginuser(request):
     if request.method == "POST":
         user = request.POST.get("username")
         passw = request.POST.get("password")
 
-        print(user,passw)
+        print(user, passw)
         user = authenticate(username=user, password=passw)
         if user is not None:
             # A backend authenticated the credentials
             print("User is not none")
-            login(request,user)
+            login(request, user)
             return redirect('/')
 
         else:
@@ -97,14 +95,16 @@ def loginuser(request):
             return redirect('/login')
 
     if request.user.is_anonymous:
-        return render(request,"templates/login.html")
+        return render(request, "templates/login.html")
     else:
         return redirect('/')
+
 
 def logoutuser(request):
     logout(request)
     cache.clear()
     return redirect('/')
+
 
 def account(request):
     if request.user.is_anonymous:
@@ -116,12 +116,9 @@ def account(request):
     if user:
         email = user.get("email")
         print(email)
-        context = {'username':usern,'email':email}
-        return render(request,"templates/account.html",context)
+        context = {'username': usern, 'email': email}
+        return render(request, "templates/account.html", context)
     else:
-        context = {'username':'Not found','email':'not found'}
-        return render(request,"templates/account.html",context)
-def clear_cache(request):
-    print("Cache Cleared")
-    cache.clear()
-    return HttpResponse('Cache cleared')
+        context = {'username': 'Not found', 'email': 'not found'}
+        return render(request, "templates/account.html", context)
+

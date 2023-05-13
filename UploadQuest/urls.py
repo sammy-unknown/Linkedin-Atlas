@@ -7,5 +7,4 @@ urlpatterns = [
     path('login',views.loginuser,name="loginuser"),
     path('logout',views.logoutuser,name="index"),
     path('account',views.account,name="Account Information"),
-    path('clear_cache/', views.clear_cache, name='clear_cache'),
 ]

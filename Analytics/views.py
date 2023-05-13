@@ -4,6 +4,10 @@ from django.core.paginator import Paginator
 from urllib.parse import quote_plus
 from django.http import JsonResponse
 from pymongo import UpdateOne
+import io,csv
+from django.http import JsonResponse, HttpResponse
+from django.http import FileResponse
+
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
 username = "manojtomar326"
 password = "Tomar@@##123"
@@ -156,27 +160,83 @@ def company_website(request, pk):
             db.my_collection.bulk_write(updates)
 
     db = client['mydatabase']
-    newData = company.get('data_dict', [])
+    if company:
+        newData = company.get('data_dict', [])
 
-    paginator = Paginator(newData, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    message = ""
-    if not page_obj:
-        message = "No data found."
+        paginator = Paginator(newData, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if not page_obj:
+            message = "No data found."
+            
 
-    title = company['Company']
-    status = company['status']
+        title = company['Company']
+        status = company['status']
 
-    profiles = company['totalProfiles']
-    total_pages = paginator.num_pages
-    context = {
-        'companies': page_obj,
-        'message': message,
-        'mainTitle':title,
-        'profiles':profiles,
-        'totalpages':total_pages,
-        'status':status,
-    }
+        profiles = company['totalProfiles']
+        total_pages = paginator.num_pages
+        context = {
+            'companies': page_obj,
+            'mainTitle':title,
+            'profiles':profiles,
+            'totalpages':total_pages,
+            'status':status,
+            'pk':pk,
+        }
+
+    else:
+        context = {
+            'message':""
+        }
+
 
     return render(request, "templates/viewdata.html", context)
+
+
+def downloaddta(request,pk):
+    if pk:
+        # Step 1: Create an aggregation pipeline
+        pipeline = [{'$match': {'id': str(pk)}},
+        {
+            '$project': {
+                    '_id': 0,
+                    'Company': 1,
+                    "data_dict.first": 1,
+                    "data_dict.last": 1,
+                    "data_dict.website": 1,
+                    "data_dict.designation": 1,
+                    "data_dict.email": 1,
+                    "data_dict.Verification": 1,
+                    },
+        }
+        ]
+
+
+    # Step 2: Run the pipeline and get a cursor to the resulting documents
+        cursor = db.my_collection.aggregate(pipeline)
+    # Step 3: Write the documents to a CSV file
+        file = io.StringIO()
+        writer = csv.writer(file)
+        writer.writerow(['Company','first', 'last', 'website',
+                        'designation','email',  'Verification'])
+        for document in cursor:
+            if 'data_dict' in document and len(document['data_dict']) > 0:
+                for x in range(len(document['data_dict'])):
+                    data_dict = document['data_dict'][x]
+                    Company = document['Company']
+                    email = data_dict.get('email')
+                    first = data_dict.get('first')
+                    last = data_dict.get('last')
+                    website = data_dict.get('website')
+                    designation = data_dict.get('designation')
+                    verification = data_dict.get('Verification')
+                    writer.writerow([Company, first, last, website,
+                                    designation,email, verification])
+
+        # Step 4: Send the file as a response
+        response = HttpResponse(file.getvalue(), content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="mydata.csv"'
+        return response
+    else:
+        print("BLANCK")
+        return HttpResponse("The id is none")

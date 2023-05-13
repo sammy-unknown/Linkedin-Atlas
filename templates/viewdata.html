@@ -28,7 +28,7 @@
   All 10 companies are selected <a href="#" id="clearSelection" value=""></a><a href="#" id="selectAllcheckbox" onclick="allselect(this)" class="mx-2" > Select All {{profiles}} profiles</a>         
   </div>
   <div class="downloadAll">
-    <button class="btn btn-primary">Download</button>
+    <a href="{% url 'downloaddta' pk=pk %}">Download</a>
   </div>
 </div>
 <div class="limiter">

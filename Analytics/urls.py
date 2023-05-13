@@ -6,4 +6,7 @@ from django.conf import settings
 urlpatterns = [
     path('data',views.Analytics,name="Data_Anyaltics"),
     path('company/<str:pk>/', views.company_website, name='company_website'),
+    path('downloaddta/<str:pk>/', views.downloaddta, name='downloaddta'),
+
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
