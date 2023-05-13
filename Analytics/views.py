@@ -22,6 +22,20 @@ client = MongoClient(connection_string)
 # Query all documents in the collection
 
 def Analytics(request):
+    if request.user.is_anonymous:
+        print("redirecting to login")
+        return redirect('/login')
+    # const filter = req.body.where||{};
+    # let limit = parseInt(req.body.pageLength) || 0;
+    # let skip = (parseInt(req.body.currentPage) || 0) * limit; 
+    # const total = await blog.countDocuments(
+    #   blog.find(filter, { __v: 0 }).sort({created_at: -1})
+    # ).collation({ locale: "en", strength: 2 });
+    #   const data =  await blog.find(filter)//
+    #   .skip(skip)
+    #   .limit(limit)
+    #   .sort({created_at:-1})
+
     db = client['mydatabase']
     collection = db['my_collection']
     data = list(db.my_collection.find().sort('_id', 1))
