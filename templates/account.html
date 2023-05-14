@@ -30,11 +30,17 @@
 <div class="container accountBox">
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            Username: {{username}}
+            {% if MY_IMAGE_URL %}
+            Image: <img src="{{MY_IMAGE_URL }}" alt="My Image" style="width: 100px ;margin-left: 30px;">
+            {% endif %}
+        </li>
+        
+        <li class="nav-item">
+            Username: {{user.username}}
         </li>
         <li class="nav-item">
 
-            Email: {{email}}
+            Email: {{user.email}}
         </li>
         <li class="nav-item">
             <div class="containerother">
@@ -44,5 +50,7 @@
     </ul>
 </div>
 
+
+<script src="static\account.js"></script>
 
 {% endblock content %}

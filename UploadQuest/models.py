@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 import uuid
-import random
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email=None, password=None, **extra_fields):
@@ -25,6 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     id = models.IntegerField(primary_key=True,unique=True)
     name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
+    image = models.ImageField(upload_to='static/img/')
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

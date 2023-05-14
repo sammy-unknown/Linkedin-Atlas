@@ -39,6 +39,10 @@
             padding-bottom: 6px;
         }
 
+
+        .btn-success{
+            background: border-box;
+        }
         main {
             margin-top: 50px; /* Adjust this value to match the height of your navbar */
         }
@@ -71,8 +75,9 @@
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav">
                             <li>
-                                <a href="/account" style="margin: 15px;/*! padding: 0px; *//*! margin-top: 10px; */border: 3px solid #2f2f1a;padding-bottom: 14px;/*! border-left-width: -1px; *//*! border-top-width: 9px; */border-bottom-width: 1px;border-radius: 100px;accent-color: ;">
-                                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=880&amp;q=80" style="border-radius: 50px;border-top-width: 0px;border-top-style: solid;margin-top: 5px;" width="30px">
+                                
+                                <a href="/account" style="margin: 15px;border: 3px solid #2e3255;padding-bottom: 13px;border-bottom-width: 1px;border-radius: 100px;">
+                                    <img src="{{MY_IMAGE_URL}}" style="border-radius: 50px;border-top-width: 0px;border-top-style: solid;margin-top: 8px;" width="30px" height="30px">
                                 </a>
                             </li>
                             <li><a href="/logout"><button class="btn btn-success m-1">Logout</button></a></li>
@@ -93,28 +98,11 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- dribbble -->
-    <a class="dribbble" href="https://dribbble.com/shots/6712593-Drag-Drop-upload-html-css-version" target="_blank"><img
-        src="https://cdn.dribbble.com/assets/dribbble-ball-mark-2bd45f09c2fb58dbbfb44766d5d1d07c5a12972d602ef8b32204d28fa3dda554.svg"
-        alt="">
-    </a>
     <!-- Include jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% block scripts %}{% endblock scripts %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   
-    <script>
-        document.getElementById("refresh-button").addEventListener("click", function() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/clear_cache/", true);
-            xhr.onreadystatechange = function() {
-              if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                location.reload(true);
-              }
-            };
-            xhr.send();
-          });
-    </script>
 </body>
 </html>

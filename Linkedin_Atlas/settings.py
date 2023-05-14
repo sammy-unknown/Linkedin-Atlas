@@ -65,6 +65,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'UploadQuest.context_processors.my_image',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -147,7 +148,7 @@ MONGODB_URI = 'mongodb+srv://manojtomar326:Tomar%40%40%23%23123@cluster0.ldghyxl
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.mydatabase
 
-INTERNAL_IPS = ['127.0.0.1', '122.161.49.21','192.168.1.3','seleniserver.pythonanywhere.com']
+INTERNAL_IPS = ['127.0.0.1', '122.161.49.21','192.168.1.3','seleniserver.pythonanywhere.com','10.0.0.83']
 
 # File Upload
 AWS_ACCESS_KEY_ID = ""

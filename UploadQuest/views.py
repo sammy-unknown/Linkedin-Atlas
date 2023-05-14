@@ -8,6 +8,7 @@ from io import StringIO
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponse
 from django.http import FileResponse
+from UploadQuest.models import CustomUser
 # Create your views here.
 
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
@@ -109,16 +110,10 @@ def logoutuser(request):
 def account(request):
     if request.user.is_anonymous:
         return redirect('/')
-    users_collection = db["auth_user"]
     usern = str(request.user)
-    print(usern)
-    user = users_collection.find_one({"username": usern})
+    user = CustomUser.objects.get(username=usern)
     if user:
-        email = user.get("email")
-        print(email)
-        context = {'username': usern, 'email': email}
-        return render(request, "templates/account.html", context)
+        return render(request, "templates/account.html", {'user':user})
     else:
         context = {'username': 'Not found', 'email': 'not found'}
         return render(request, "templates/account.html", context)
-
