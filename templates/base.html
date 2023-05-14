@@ -70,7 +70,11 @@
 
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav">
-                            <li><a href="/account"><button class="btn btn-success m-1">Account Settings</button></a></li>
+                            <li>
+                                <a href="/account" style="margin: 15px;/*! padding: 0px; *//*! margin-top: 10px; */border: 3px solid #2f2f1a;padding-bottom: 14px;/*! border-left-width: -1px; *//*! border-top-width: 9px; */border-bottom-width: 1px;border-radius: 100px;accent-color: ;">
+                                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=880&amp;q=80" style="border-radius: 50px;border-top-width: 0px;border-top-style: solid;margin-top: 5px;" width="30px">
+                                </a>
+                            </li>
                             <li><a href="/logout"><button class="btn btn-success m-1">Logout</button></a></li>
 
                         </ul>
