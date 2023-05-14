@@ -29,12 +29,16 @@ collection = db['my_collection']
 total_documents = collection.count_documents({})
 totalCheckedProfile = collection.count_documents({'status': 'pending'})
 totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
-print('total_documents',total_documents)
+
 
 def Analytics(request):
     if request.user.is_anonymous:
         print("redirecting to login")
         return redirect('/login')
+    collection = db['my_collection']
+    total_documents = collection.count_documents({})
+    totalCheckedProfile = collection.count_documents({'status': 'pending'})
+    totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
     page_number = request.GET.get('page')
     items_per_page = 10
     paginator = Paginator(range(total_documents), items_per_page)
