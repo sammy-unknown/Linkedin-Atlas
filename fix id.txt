@@ -1,0 +1,20 @@
+// switch to the appropriate database
+use my_database
+
+// switch to the appropriate collection
+db.my_collection
+
+// retrieve all the documents from the collection
+const documents = db.my_collection.find()
+
+// iterate through the documents
+documents.forEach(doc => {
+  // iterate through the data_dict array of each document
+  doc.data_dict.forEach((obj, i) => {
+    // update the id field of each object in the data_dict array
+    obj.id = i
+  })
+  
+  // update the document in the collection with the updated data_dict array
+  db.my_collection.updateOne({_id: doc._id}, {$set: {data_dict: doc.data_dict}})
+})

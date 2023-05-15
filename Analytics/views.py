@@ -145,20 +145,21 @@ def company_website(request, pk):
             i-=1
             # print("All Checbox are selected")
             updates = []
-            for p in range(i, 400):
+            p=i
+            for new_data_dict in company['data_dict']:
                 try:
-                    for new_data_dict in company['data_dict']:
-                        if new_data_dict['id'] == p:
-                            first = new_data_dict['first']
-                            last = new_data_dict['last']
-                            domain = new_data_dict['website'].replace("https:","").replace("http:","").replace("/","").replace("www.","")
-                            patrnn = request.POST.getlist(f"patternTransfer")[0]
-                            latest_email = f'{patrnn.replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).lower()}@{domain}'
-                            if latest_email:
-                                updates.append(UpdateOne({'id': pk, 'data_dict.id': p}, {'$set': {'data_dict.$.email': latest_email}}))
-                                print(f"[{p}]: Query Update {latest_email}")
+                    first = new_data_dict['first']
+                    last = new_data_dict['last']
+                    bid = new_data_dict['id']
+                    domain = new_data_dict['website'].replace("https:","").replace("http:","").replace("/","").replace("www.","")
+                    patrnn = request.POST.getlist(f"patternTransfer")[0]
+                    latest_email = f'{patrnn.replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).lower()}@{domain}'
+                    if latest_email:
+                        updates.append(UpdateOne({'id': pk, 'data_dict.id': bid}, {'$set': {'data_dict.$.email': latest_email}}))
+                        print(f"[{p}]: Query Update {latest_email}")
                 except IndexError:
                     break
+                p+=1
 
 
             db.my_collection.bulk_write(updates)
