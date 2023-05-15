@@ -24,21 +24,19 @@ connection_string = f"mongodb+srv://{encoded_username}:{encoded_password}@{clust
 
 client = MongoClient(connection_string)
 # Query all documents in the collection
-db = client['mydatabase']
-collection = db['my_collection']
-total_documents = collection.count_documents({})
-totalCheckedProfile = collection.count_documents({'status': 'pending'})
-totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
+
 
 
 def Analytics(request):
     if request.user.is_anonymous:
         print("redirecting to login")
         return redirect('/login')
+    db = client['mydatabase']
     collection = db['my_collection']
     total_documents = collection.count_documents({})
     totalCheckedProfile = collection.count_documents({'status': 'pending'})
     totalCheckedProfiles = int(total_documents) - int(totalCheckedProfile)
+
     page_number = request.GET.get('page')
     items_per_page = 10
     paginator = Paginator(range(total_documents), items_per_page)
@@ -48,7 +46,7 @@ def Analytics(request):
     else:
         start_index = 0
     end_index = start_index + items_per_page
-    print(start_index)
+    print(total_documents)
     data = list(collection.find().sort('_id', 1).skip(start_index).limit(items_per_page))
 
     linktotal_pages = paginator.num_pages
@@ -200,6 +198,8 @@ def company_website(request, pk):
 
 def downloaddta(request,pk):
     if pk:
+        db = client['mydatabase']
+        collection = db['my_collection']
         # Step 1: Create an aggregation pipeline
         pipeline = [{'$match': {'id': str(pk)}},
         {
