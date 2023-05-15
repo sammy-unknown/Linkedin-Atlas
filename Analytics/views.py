@@ -156,7 +156,7 @@ def company_website(request, pk):
                     latest_email = f'{patrnn.replace("lastname", last).replace("firstname", first).replace("firstname", first).replace("firstinitial", first[0]).replace("lastinitial", last[0]).lower()}@{domain}'
                     if latest_email:
                         updates.append(UpdateOne({'id': pk, 'data_dict.id': bid}, {'$set': {'data_dict.$.email': latest_email}}))
-                        print(f"[{p}]: Query Update {latest_email}")
+                        print(f"[{bid}]: Query Update {latest_email}")
                 except IndexError:
                     break
                 p+=1
