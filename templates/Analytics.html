@@ -22,15 +22,26 @@
         {% endif %}
       </div>
       <div class="totalpages">
-        {% if totalCheckedProfiles %}
-        <div class="h6">Total items: {{totalCheckedProfiles}}/{{total_documents}}</div>
-        {% else %}
-        <div class="h6">Total items: {{total_documents}}</div>
-        {% endif %}
-        <div class="h6">Total Profiles: {{total_profiles_count}}</div>
+        <div class="dashboard summary">Total Email Created: {{Total_Email}}</div>
+        <div class="dashboard summary">Total Email ID Checked: {{Total_Email_Checked}}</div>
+        <div class="dashboard summary">Total Email ID Pending: {{Total_Email_Pending}}</div>
+        <div class="dashboard summary">Total True Emails: {{true_email_count}}</div>
+        <div class="dashboard summary">Total False Emails: {{false_email_count}}</div>
         
+        {% if totalCheckedProfiles %}
+        <div class="dashboard summary">Total items: {{totalCheckedProfiles}}/{{total_documents}}</div>
+        {% else %}
+        <div class="dashboard summary">Total items: {{total_documents}}</div>
+        {% endif %}
+        <div class="dashboard summary">Total Profiles: {{total_profiles_count}}</div>
         {% if totalpages %}
-        <p>Total Pages: {{totalpages}}</p>
+        <div class="summary">Total Pages: {{totalpages}}</div>
+        {% endif %}
+        {% if TotalProfiles24 %}
+        <div class="dashboard summary">Total Profile Created in last 24 hours: {{TotalProfiles24}}</div>
+        {% endif %}
+        {% if Chekced24 %}
+        <div class="dashboard summary">Total Email ID Checked in last 24 hours: {{Chekced24}}</div>
         {% endif %}
       </div>
     </div>
@@ -80,24 +91,63 @@
   {% if page_obj.number|add:-1 != 1 %}
   <a class="item-number current-page mx-3 my-1 text-light " href="?page=1">1</a>
   {% endif %}
-  {% if page_obj.number > 3 %}  
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page=2">...</a>
+  
+  {% if page_obj.number|add:-7 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-7}}">{{page_obj.number|add:-7}}</a>
   {% endif %}
-
+  
+  {% if page_obj.number|add:-6 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-6}}">{{page_obj.number|add:-6}}</a>
+  {% endif %}
+  
+  {% if page_obj.number|add:-5 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-5}}">{{page_obj.number|add:-5}}</a>
+  {% endif %}
+  
+  {% if page_obj.number|add:-4 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-4}}">{{page_obj.number|add:-4}}</a>
+  {% endif %}
+  
+  {% if page_obj.number|add:-3 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-3}}">{{page_obj.number|add:-3}}</a>
+  {% endif %}
+  
+  {% if page_obj.number|add:-2 > 1 %} 
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-2}}">{{page_obj.number|add:-2}}</a>
+  {% endif %}
+  
+  {% if page_obj.number|add:-1 > 1 %} 
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:-1}}">{{page_obj.number|add:-1}}</a>
+  {% endif %}
 
   {% endif %}
+
   <span class="item-number current-page-real mx-3 my-1 text-dark">{{ page_obj.number }}</span>
+  <input type="text" class="col-1 pageChange">
+  <button class="btn btn-danger mx-2" onclick="ChangePage()">Go</button>
   {% if page_obj.number|add:1 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:1}}">{{page_obj.number|add:1}}</a>
   {% endif %}
   {% if page_obj.number|add:2 < totalpages %}
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:2}}</a>
   {% endif %}
-  {% if totalpages > page_obj.number %}
-  {% if totalpages > page_obj.number|add:3 %}
-  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages|add:-1}}">...</a>
+  {% if page_obj.number|add:3 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:3}}</a>
   {% endif %}
+  {% if page_obj.number|add:4 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:4}}</a>
+  {% endif %}
+  {% if page_obj.number|add:5 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:5}}</a>
+  {% endif %}
+  {% if page_obj.number|add:6 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:6}}</a>
+  {% endif %}
+  {% if page_obj.number|add:7 < totalpages %}
+  <a class="item-number current-page mx-3 my-1 text-light" href="?page={{page_obj.number|add:2}}">{{page_obj.number|add:7}}</a>
+  {% endif %}
+  {% if totalpages > page_obj.number %}
+  
   <a class="item-number current-page mx-3 my-1 text-light" href="?page={{totalpages}}">{{totalpages}}</a>
   {% endif %}
 
@@ -134,6 +184,10 @@
     xhr.send(formData); // Send form data object in the request
   }
 
+  function ChangePage(){
+    pgchnageval = document.querySelector('.pageChange').value
+    window.location.href = `?page=${pgchnageval}`;
+  }
 </script>
 
 

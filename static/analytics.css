@@ -134,7 +134,7 @@ table tbody tr {
 }
 
 .headerTable{
-    height: 210px;
+    height: 230px;
     background: linear-gradient(45deg,#2b5d62,#5450c8);
     margin: 18px;
     color: white;
@@ -159,6 +159,7 @@ table tbody tr {
     margin-right: 60px;
     text-align: right;
     flex-direction: column;
+    margin-top: -94px;
 }
 
 .LatestData{
@@ -180,4 +181,9 @@ table tbody tr {
 .current-page-real{
     background: white;
     padding: 5px 7px;
+}
+
+.summary{
+    margin: 1px;
+    font-size: 1rem;
 }

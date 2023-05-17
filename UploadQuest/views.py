@@ -7,8 +7,8 @@ import csv
 from io import StringIO
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponse
-from django.http import FileResponse
 from UploadQuest.models import CustomUser
+
 # Create your views here.
 
 # Replace <username>, <password>, and <cluster-url> with your MongoDB Atlas credentials
@@ -65,6 +65,7 @@ def index(request):
             record['totalProfiles'] = 0
             record['email'] = 'none'
             record['status'] = 'pending'
+
             record['id'] = str(record_orgid)
             record_orgid += 1
 
