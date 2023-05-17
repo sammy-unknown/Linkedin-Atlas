@@ -186,10 +186,9 @@ table tbody tr {
 .summary{
     margin: 1px;
     font-size: 0.9rem;
-    background: #f9f9f9;
-    color: black;
-    border: 1px solid #1bc616;
+    background: #000;
+    color: white;
+    border: 1px solid #158cff66;
     padding-right: 11.3px;
     width: 105%;
-
 }
