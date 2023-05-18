@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('UploadQuest.urls')),
     path('', include('Analytics.urls')),
+    path('', include('Crunchbase.urls')),
 ]
 
