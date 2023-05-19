@@ -1,12 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crunchbase</title>
-</head>
-<body>
-    <h3>Crunchbase</h3>
-</body>
-</html>
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block title %}Crunchbase | Seach data using query{% endblock title %}
+
+{% block sttylesheets %}
+<link rel="stylesheet" href="{% static 'crunchbase.css' %}">
+{% endblock sttylesheets %}
+
+{% block content %}
+<div class="FullSearchbox">
+    <form method="post">
+        {% csrf_token %}
+        <div class="container">
+            <div class="search" style="margin: 10px;">
+                <input type="text" name="InputBox" placeholder="Crunchbase URL">
+                <button class="btn btn-secondary" onclick="Search()">Search</button>
+            </div>
+            
+        </div>
+    </form>
+    <h3 class="output"></h3>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="static/searchq.js"></script>
+{% endblock content %}

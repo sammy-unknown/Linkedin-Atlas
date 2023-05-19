@@ -1,0 +1,36 @@
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 17vh;
+}
+
+html,body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background:
+        /* top, transparent black, faked with gradient */
+        linear-gradient(rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.7)),
+        /* bottom, image */
+        url("https://source.unsplash.com/1600x900/?cars,text,books,3d");
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+
+.output{
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+    color: wheat;
+}
+
+.FullSearchbox {
+    background-color: rgba(44, 49, 47, 0.5); /* Semi-transparent background color */
+    opacity: 0.7; /* Opacity of the container */
+    height: 50vh;
+    width: 37vw;
+    margin: auto;
+    box-shadow:  1px 1px 10px rgba(255, 251, 251, 0.9); /* Box shadow for the glass effect */
+}
