@@ -17,4 +17,4 @@ def Collect(request):
         db = client['mydatabase']  # Replace with your actual database name
         collection=db['Crunchbase']
         collection.insert_one({"url":url,"status":"pending"})
-    return render(request,"templates\crunchbase.html")
+    return render(request,"templates/crunchbase.html")
